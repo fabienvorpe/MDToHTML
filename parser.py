@@ -5,12 +5,30 @@ import AST
 
 
 def p_programme_statement(p):
-    ''' programme : statement '''
+    """ programme : statement
+    | statement EOF programme """
     p[0] = AST.ProgramNode(p[1])
 
 def p_statement(p):
-    """ statement : TITLE1 """ # est ce que on add le tag html dans l'interpreteur ou on peut pas retrouver le type du token dan sl'interpreteur ???
+    """ statement : TITLE
+    | first_unordered_list """
     p[0] = AST.TokenNode(p[1])
+
+def p_first_unordered_list(p):
+    """ first_unordered_list : '*' TEXT unordered_list 
+    | '*' TEXT """
+    try:
+        p[0] = f"<ul><li>{p[2]}</li>{p[3]}"
+    except:
+        p[0] = f"<li>{p[2]}</li></ul>"
+
+def p_unordered_list(p):
+    """ unordered_list : '*' TEXT unordered_list 
+    | '*' TEXT """
+    try:
+        p[0] = f"<li>{p[2]}</li>{p[3]}"
+    except:
+        p[0] = f"<li>{p[2]}</li></ul>"
 
 def p_error(p):
     if p:
