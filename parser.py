@@ -2,29 +2,41 @@ import ply.yacc as yacc
 
 from lex import tokens
 import AST
+nbLi = 0
 
 
 def p_programme_statement(p):
-    """ programme : statement
-    | statement EOF programme """
+    """ programme : statement 
+    | statement programme """
     p[0] = AST.ProgramNode(p[1])
 
 def p_statement(p):
-    """ statement : TITLE
+    """ statement : TITLE EOL
     | first_unordered_list """
     p[0] = AST.TokenNode(p[1])
 
 def p_first_unordered_list(p):
-    """ first_unordered_list : '*' TEXT unordered_list 
-    | '*' TEXT """
+    """ first_unordered_list : '*' TEXT EOL first_unordered_list
+    | '*' TEXT EOL """
     try:
-        p[0] = f"<ul><li>{p[2]}</li>{p[3]}"
+        print("++", p)
+        nbLi += 1
+        p[0] = f"<li>{p[2]}</li>{p[3]}"
+        nbLi -= 1
+
+        if nbLi == 0:
+            p[0] = "<ul>" + p[0]
+
+        print(p[0])
+
     except:
+        print("--", p)
         p[0] = f"<li>{p[2]}</li></ul>"
 
 def p_unordered_list(p):
-    """ unordered_list : '*' TEXT unordered_list 
-    | '*' TEXT """
+    """ unordered_list : '*' TEXT EOL unordered_list
+    | '*' TEXT EOL """
+    print("--", p)
     try:
         p[0] = f"<li>{p[2]}</li>{p[3]}"
     except:

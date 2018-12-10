@@ -6,7 +6,7 @@ reserved_words = (
 tokens = (
 	'TITLE',
 	'TEXT',
-	'EOF',
+	'EOL',
 	# 'UNORDERED_LIST_ELEMENT',
 	# 'ORDERED_LIST_ELEMENT',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
@@ -36,8 +36,8 @@ def t_TITLE(t):
 # 	t.value = f"<li>{t.value[3:]}</li>"
 # 	return t
 
-def t_EOF(t):
-	r"\n+"
+def t_EOL(t):
+	r"\n"
 	return t
 
 # def t_newline(t):
