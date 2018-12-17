@@ -2,7 +2,6 @@ import ply.yacc as yacc
 
 from lex import tokens
 import AST
-nbLi = 0
 
 
 def p_programme_statement(p):
@@ -12,35 +11,29 @@ def p_programme_statement(p):
 
 def p_statement(p):
     """ statement : TITLE EOL
-    | first_unordered_list """
+    | TITLE
+    | unordered_list
+    | ordered_list """
+    print("statement", p[:])
     p[0] = AST.TokenNode(p[1])
-
-def p_first_unordered_list(p):
-    """ first_unordered_list : '*' TEXT EOL first_unordered_list
-    | '*' TEXT EOL """
-    try:
-        print("++", p)
-        nbLi += 1
-        p[0] = f"<li>{p[2]}</li>{p[3]}"
-        nbLi -= 1
-
-        if nbLi == 0:
-            p[0] = "<ul>" + p[0]
-
-        print(p[0])
-
-    except:
-        print("--", p)
-        p[0] = f"<li>{p[2]}</li></ul>"
 
 def p_unordered_list(p):
     """ unordered_list : '*' TEXT EOL unordered_list
-    | '*' TEXT EOL """
-    print("--", p)
+    | '*' TEXT EOL
+    | '*' TEXT """
     try:
-        p[0] = f"<li>{p[2]}</li>{p[3]}"
+        p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
-        p[0] = f"<li>{p[2]}</li></ul>"
+        p[0] = f"<ul><li>{p[2]}</li></ul>"
+
+def p_ordered_list(p):
+    """ ordered_list : ORDERED_LIST_INDEX EOL ordered_list
+    | ORDERED_LIST_INDEX EOL
+    | ORDERED_LIST_INDEX """
+    try:
+        p[0] = f"<ol><li>{p[1]}</li>{p[3][4:]}"
+    except:
+        p[0] = f"<ol><li>{p[1]}</li></ol>"
 
 def p_error(p):
     if p:
@@ -65,4 +58,4 @@ if __name__ == "__main__":
     prog = open(sys.argv[1]).read()
     result = yacc.parse(prog)
 
-    print(result)
+    print("result", result)

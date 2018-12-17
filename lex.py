@@ -7,6 +7,7 @@ tokens = (
 	'TITLE',
 	'TEXT',
 	'EOL',
+	'ORDERED_LIST_INDEX',
 	# 'UNORDERED_LIST_ELEMENT',
 	# 'ORDERED_LIST_ELEMENT',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
@@ -26,15 +27,10 @@ def t_TITLE(t):
 	t.value = f"<h{title_level}>{t.value[nb_sharps+1:]}</h{title_level}>"
 	return t
 
-# def t_UNORDERED_LIST_ELEMENT(t):
-# 	r"\*[ ].+"
-# 	t.value = f"<li>{t.value[2:]}</li>"
-# 	return t
-
-# def t_ORDERED_LIST_ELEMENT(t):
-# 	r"[0-9]+\.[ ].+"
-# 	t.value = f"<li>{t.value[3:]}</li>"
-# 	return t
+def t_ORDERED_LIST_INDEX(t):
+	r"\d+.+"
+	t.value = t.value[len(t.value.split()[0])+1:]
+	return t
 
 def t_EOL(t):
 	r"\n"
