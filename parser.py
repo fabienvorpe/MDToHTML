@@ -16,6 +16,10 @@ def p_statement(p):
     | ordered_list
     | bold_text EOL 
     | bold_text
+    | italic_text EOL 
+    | italic_text
+    | crossed_text EOL 
+    | crossed_text
     | TEXT EOL
     | TEXT """
     print("statement", p[:])
@@ -42,6 +46,14 @@ def p_ordered_list(p):
 def p_bold_text(p):
     """ bold_text : BOLD_TEXT """
     p[0] = f"<span class='bold'>{p[1]}</span>"
+
+def p_italic_text(p):
+    """ italic_text : ITALIC_TEXT """
+    p[0] = f"<span class='italic'>{p[1]}</span>"
+
+def p_crossed_text(p):
+    """ crossed_text : CROSSED_TEXT """
+    p[0] = f"<span class='crossed'>{p[1]}</span>"
 
 def p_error(p):
     if p:
