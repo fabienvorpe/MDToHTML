@@ -8,6 +8,7 @@ tokens = (
 	'TEXT',
 	'EOL',
 	'ORDERED_LIST_INDEX',
+	'BOLD_TEXT',
 	# 'UNORDERED_LIST_ELEMENT',
 	# 'ORDERED_LIST_ELEMENT',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
@@ -30,6 +31,11 @@ def t_TITLE(t):
 def t_ORDERED_LIST_INDEX(t):
 	r"\d+.+"
 	t.value = t.value[len(t.value.split()[0])+1:]
+	return t
+
+def t_BOLD_TEXT(t):
+	r"\*\*.+\*\*"
+	t.value = t.value[2:-2]
 	return t
 
 def t_EOL(t):

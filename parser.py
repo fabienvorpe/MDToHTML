@@ -13,7 +13,11 @@ def p_statement(p):
     """ statement : TITLE EOL
     | TITLE
     | unordered_list
-    | ordered_list """
+    | ordered_list
+    | bold_text EOL 
+    | bold_text
+    | TEXT EOL
+    | TEXT """
     print("statement", p[:])
     p[0] = AST.TokenNode(p[1])
 
@@ -34,6 +38,10 @@ def p_ordered_list(p):
         p[0] = f"<ol><li>{p[1]}</li>{p[3][4:]}"
     except:
         p[0] = f"<ol><li>{p[1]}</li></ol>"
+
+def p_bold_text(p):
+    """ bold_text : BOLD_TEXT """
+    p[0] = f"<span class='bold'>{p[1]}</span>"
 
 def p_error(p):
     if p:
