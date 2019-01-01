@@ -12,8 +12,6 @@ tokens = (
 	'ITALIC_TEXT',
 	'CROSSED_TEXT',
 	'CODE_SAMPLE',
-	# 'UNORDERED_LIST_ELEMENT',
-	# 'ORDERED_LIST_ELEMENT',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
 
 literals = '*'
