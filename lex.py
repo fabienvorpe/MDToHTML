@@ -8,17 +8,17 @@ tokens = (
 	'TEXT',
 	'EOL',
 	'ORDERED_LIST_INDEX',
-	'BOLD_TEXT',
-	'ITALIC_TEXT',
-	'CROSSED_TEXT',
-	'UNDERLINED_TEXT',
 	'CODE_SAMPLE',
+	'BOLD_IDENTIFIER',
+	'ITALIC_IDENTIFIER',
+	'CROSSED_IDENTIFIER',
+	'UNDERLINED_IDENTIFIER',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
 
-literals = '*'
+literals = '-'
 
 def t_TEXT(t):
-	r"[A-Za-z]+"
+	r"[A-Za-z ]+"
 	return t
 
 def t_TITLE(t):
@@ -31,28 +31,23 @@ def t_TITLE(t):
 	return t
 
 def t_ORDERED_LIST_INDEX(t):
-	r"\d+.+"
-	t.value = t.value[len(t.value.split()[0])+1:]
+	r"\d+\."
 	return t
 
-def t_BOLD_TEXT(t):
-	r"\*\*.+\*\*"
-	t.value = t.value[2:-2]
+def t_BOLD_IDENTIFIER(t):
+	r"\*\*"
 	return t
 
-def t_ITALIC_TEXT(t):
-	r"\*.+\*"
-	t.value = t.value[1:-1]
+def t_ITALIC_IDENTIFIER(t):
+	r"\*"
 	return t
 
-def t_CROSSED_TEXT(t):
-	r"\~\~.+\~\~"
-	t.value = t.value[2:-2]
+def t_CROSSED_IDENTIFIER(t):
+	r"\~\~"
 	return t
 
-def t_UNDERLINED_TEXT(t):
-	r"\_\_.+\_\_"
-	t.value = t.value[2:-2]
+def t_UNDERLINED_IDENTIFIER(t):
+	r"\_\_"
 	return t
 
 def t_CODE_SAMPLE(t):
@@ -63,10 +58,6 @@ def t_CODE_SAMPLE(t):
 def t_EOL(t):
 	r"\n"
 	return t
-
-# def t_newline(t):
-# 	r'\n+'
-# 	t.lexer.lineno += len(t.value)
 
 t_ignore  = ' \t'
 

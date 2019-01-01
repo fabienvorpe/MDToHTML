@@ -18,56 +18,64 @@ def p_statement(p):
     | TITLE
     | unordered_list
     | ordered_list
-    | bold_text
-    | italic_text
-    | crossed_text
-    | underlined_text
+    | simple_style
+    | simple_style EOL
     | code_sample
     | TEXT EOL
     | TEXT """
-    p[0] = AST.TokenNode(p[1])
+    carriage_return = "<br/>" if len(p) > 2 else ""
+    p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
+
+def p_simple_style(p):
+    """ simple_style : bold_text
+    | italic_text
+    | crossed_text
+    | underlined_text """
+    p[0] = p[1]
 
 def p_unordered_list(p):
-    """ unordered_list : '*' TEXT EOL unordered_list
-    | '*' TEXT EOL
-    | '*' TEXT """
+    """ unordered_list : '-' TEXT EOL unordered_list
+    | '-' simple_style EOL unordered_list
+    | '-' TEXT EOL
+    | '-' simple_style EOL
+    | '-' TEXT
+    | '-' simple_style """
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
         p[0] = f"<ul><li>{p[2]}</li></ul>"
 
 def p_ordered_list(p):
-    """ ordered_list : ORDERED_LIST_INDEX EOL ordered_list
-    | ORDERED_LIST_INDEX EOL
-    | ORDERED_LIST_INDEX """
+    """ ordered_list : ORDERED_LIST_INDEX TEXT EOL ordered_list
+    | ORDERED_LIST_INDEX simple_style EOL ordered_list
+    | ORDERED_LIST_INDEX TEXT EOL
+    | ORDERED_LIST_INDEX simple_style EOL
+    | ORDERED_LIST_INDEX TEXT
+    | ORDERED_LIST_INDEX simple_style """
     try:
-        p[0] = f"<ol><li>{p[1]}</li>{p[3][4:]}"
+        p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
     except:
-        p[0] = f"<ol><li>{p[1]}</li></ol>"
+        p[0] = f"<ol><li>{p[2]}</li></ol>"
 
 def p_bold_text(p):
-    """ bold_text : BOLD_TEXT 
-    | BOLD_TEXT EOL"""
-    carriage_return = "<br/>" if len(p) > 2 else ""
-    p[0] = f"<span class='bold'>{p[1]}</span>{carriage_return}"
+    """ bold_text : BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    | BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER"""
+    p[0] = f"<span class='bold'>{p[2]}</span>"
 
 def p_italic_text(p):
-    """ italic_text : ITALIC_TEXT 
-    | ITALIC_TEXT EOL"""
-    carriage_return = "<br/>" if len(p) > 2 else ""
-    p[0] = f"<span class='italic'>{p[1]}</span>{carriage_return}"
+    """ italic_text : ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    | ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER"""
+    p[0] = f"<span class='italic'>{p[2]}</span>"
 
 def p_crossed_text(p):
-    """ crossed_text : CROSSED_TEXT 
-    | CROSSED_TEXT EOL"""
-    carriage_return = "<br/>" if len(p) > 2 else ""
-    p[0] = f"<span class='crossed'>{p[1]}</span>{carriage_return}"
+    """ crossed_text : CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    | CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER"""
+    p[0] = f"<span class='crossed'>{p[2]}</span>"
 
 def p_underlined_text(p):
-    """ underlined_text : UNDERLINED_TEXT 
-    | UNDERLINED_TEXT EOL"""
-    carriage_return = "<br/>" if len(p) > 2 else ""
-    p[0] = f"<span class='underlined'>{p[1]}</span>{carriage_return}"
+    """ underlined_text : UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    | UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER"""
+    p[0] = f"<span class='underlined'>{p[2]}</span>"
 
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 
@@ -81,7 +89,7 @@ def p_code_sample(p):
 def p_error(p):
     if p:
         print ("Syntax error in line %d" % p.lineno)
-        yacc.errok()
+        # yacc.errok()
     else:
         print ("Sytax error: unexpected end of file!")
 
