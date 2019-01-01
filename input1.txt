@@ -9,6 +9,7 @@
 hum **bold text** adsa ~~trop stylé~~
 *texte en italique*
 **~~bold and crossed~~**
+__texte souligné__
 ```code sample - one line```
 ```code sample -
 two lines```

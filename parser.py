@@ -21,6 +21,7 @@ def p_statement(p):
     | bold_text
     | italic_text
     | crossed_text
+    | underlined_text
     | code_sample
     | TEXT EOL
     | TEXT """
@@ -61,6 +62,12 @@ def p_crossed_text(p):
     | CROSSED_TEXT EOL"""
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = f"<span class='crossed'>{p[1]}</span>{carriage_return}"
+
+def p_underlined_text(p):
+    """ underlined_text : UNDERLINED_TEXT 
+    | UNDERLINED_TEXT EOL"""
+    carriage_return = "<br/>" if len(p) > 2 else ""
+    p[0] = f"<span class='underlined'>{p[1]}</span>{carriage_return}"
 
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 

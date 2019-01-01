@@ -11,6 +11,7 @@ tokens = (
 	'BOLD_TEXT',
 	'ITALIC_TEXT',
 	'CROSSED_TEXT',
+	'UNDERLINED_TEXT',
 	'CODE_SAMPLE',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
 
@@ -46,6 +47,11 @@ def t_ITALIC_TEXT(t):
 
 def t_CROSSED_TEXT(t):
 	r"\~\~.+\~\~"
+	t.value = t.value[2:-2]
+	return t
+
+def t_UNDERLINED_TEXT(t):
+	r"\_\_.+\_\_"
 	t.value = t.value[2:-2]
 	return t
 
