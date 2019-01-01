@@ -9,3 +9,10 @@
 hum **bold text** adsa ~~trop stylé~~
 *texte en italique*
 **~~bold and crossed~~**
+```code sample - one line```
+```code sample -
+two lines```
+```
+code sample
+lots of lines
+```

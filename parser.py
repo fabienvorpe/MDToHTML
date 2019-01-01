@@ -20,6 +20,8 @@ def p_statement(p):
     | italic_text
     | crossed_text EOL 
     | crossed_text
+    | code_sample EOL
+    | code_sample
     | TEXT EOL
     | TEXT """
     print("statement", p[:])
@@ -54,6 +56,12 @@ def p_italic_text(p):
 def p_crossed_text(p):
     """ crossed_text : CROSSED_TEXT """
     p[0] = f"<span class='crossed'>{p[1]}</span>"
+
+def p_code_sample(p):
+    """ code_sample : CODE_SAMPLE """
+    code = p[1][1:] if p[1][:1] == "\n" else p[1]
+    code = code[:-1] if code[-1:] == "\n" else code
+    p[0] = f"<span class='code'>{code}</span>"
 
 def p_error(p):
     if p:
