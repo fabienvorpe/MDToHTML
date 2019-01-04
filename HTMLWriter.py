@@ -20,7 +20,7 @@ class HTMLWriter:
                     if "<title></title>" in line:
                         line = "\t<title>" + title + "</title>\n"
                     output.write(line)
-                    if "<body>" in line:
+                    if '<div id="container">' in line:
                         output.write(self._treeToText(result))
         webbrowser.open("file://" + os.path.realpath(output_file))
 

@@ -84,7 +84,7 @@ def p_code_sample(p):
     code = p[1][1:] if p[1][:1] == "\n" else p[1]
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
-    p[0] = f"<span class='code'>{code}</span>{carriage_return}"
+    p[0] = f"<div class='code'>{code}</div>{carriage_return}"
 
 def p_error(p):
     if p:
