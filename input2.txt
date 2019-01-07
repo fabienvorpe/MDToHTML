@@ -24,3 +24,7 @@ lots of lines
 {
 	- :index: coucou :element:
 }
+!boucle![fabien, guillaume]
+{
+	- **~~:index:~~ coucou** :element:
+}
