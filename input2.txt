@@ -1,7 +1,7 @@
-################### h2
-* yeah
-* ok
-* SUPER
+################ h2
+- yeah
+- ok
+- SUPER
 # prt
 1. un ok ok ok
 2. deux

@@ -22,7 +22,8 @@ def p_statement(p):
     | simple_style EOL
     | code_sample
     | TEXT EOL
-    | TEXT """
+    | TEXT
+    | loop """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -85,6 +86,22 @@ def p_code_sample(p):
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
     p[0] = f"<div class='code'>{code}</div>{carriage_return}"
+
+def p_loop(p):
+    """ loop : LOOP '[' TEXT ']' EOL '{' EOL TEXT EOL '}' """
+
+    elements = p[3].split(", ")
+
+    # prob de passer les trucs au loop_content si on est fait un pour plusieur ligne par exemple ?
+
+    result = ""
+    for i in range(len(elements)):
+        line = p[8]
+        line = line.replace(":index:", str(i))
+        line = line.replace(":element:", elements[i])
+        result += line + "<br/>"
+
+    p[0] = result
 
 def p_error(p):
     if p:
