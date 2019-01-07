@@ -18,3 +18,7 @@ two lines```
 code sample
 lots of lines
 ```
+!boucle![fabien, guillaume]
+{
+	:index:. coucou :element:
+}

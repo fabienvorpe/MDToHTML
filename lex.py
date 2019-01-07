@@ -20,8 +20,7 @@ tokens = (
 literals = '-[]{}'
 
 def t_TEXT(t):
-	#r"[A-Za-z ]+"
-	r"[A-Za-z ,:]+"
+	r"[A-Za-zÀ-ÿ .,:()]+"
 	return t
 
 def t_TITLE(t):
