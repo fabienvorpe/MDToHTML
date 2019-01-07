@@ -19,12 +19,13 @@ def p_statement(p):
     | unordered_list
     | ordered_list
     | simple_style
-    | simple_style EOL
+    | simple_style EOL 
     | code_sample
     | TEXT EOL
     | TEXT
     | loop 
     | loop EOL """
+    print(p[1])
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -32,8 +33,13 @@ def p_simple_style(p):
     """ simple_style : bold_text
     | italic_text
     | crossed_text
-    | underlined_text """
-    p[0] = p[1]
+    | underlined_text
+    | simple_style TEXT """
+    print(p[1])
+    try:
+        p[0] = p[1] + p[2]
+    except:
+        p[0] = p[1]
 
 def p_unordered_list(p):
     """ unordered_list : '-' TEXT EOL unordered_list
@@ -92,44 +98,33 @@ def p_loop(p):
     """ loop : LOOP '[' TEXT ']' EOL '{' EOL loop_content '}' 
     | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
 
+    print(p[8])
+
     elements = p[3].split(", ")
+    ol_list_identifier = ":index:."
+    ul_list_identifier = "<ul>"
 
-    result = ""
-
-    li_prefix = ""
-    li_suffix = ""
-    ol_prefix = ""
-    ol_suffix = ""
-
-    if p[8][:8] == ":index:.":    
-        li_prefix = "<li>"
-        li_suffix = "</li>"
-        ol_prefix = "<ol>"
-        ol_suffix = "</ol>"
+    global_prefix = "<ol>"  if p[8][:8]  == ol_list_identifier else ("<ul>"  if p[8][:4] == ul_list_identifier else "")
+    global_suffix = "</ol>" if p[8][:8]  == ol_list_identifier else ("</ul>" if p[8][:4] == ul_list_identifier else "")
+    local_prefix =  "<li>"  if p[8][:8]  == ol_list_identifier else ""
+    local_suffix =  "</li>" if p[8][:8]  == ol_list_identifier else ""
     
-    result += ol_prefix
+    result = global_prefix
 
     for i in range(len(elements)):
-        line = p[8][8:] if p[8][:8] == ":index:." else p[8]
-        print(line)
+        line = p[8][8:] if p[8][:8] == ol_list_identifier else (p[8][4:-5] if p[8][:4] == ul_list_identifier else p[8])
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
-        result += li_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line else "") + li_suffix
+        result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
 
-    result += ol_suffix
-    p[0] = result 
+    p[0] = result + global_suffix
 
 def p_loop_content(p):
     """ loop_content : TEXT
     | TITLE
     | simple_style 
-    | unordered_list
-    | loop_content loop_content """
-    # plusieurs lignes ?
-    try:
-        p[0] = p[1] + p[2]
-    except:
-        p[0] = p[1]
+    | unordered_list """
+    p[0] = p[1]
 
 def p_error(p):
     if p:
