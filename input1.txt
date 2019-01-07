@@ -1,10 +1,10 @@
 *texte en italique*
 __simple underlined__
 ~~simple crossed~~
-**simple bold**
+**simplE Bold**
 **~~bold crossed~~**
 ~~**crossed and bold**~~
 1. *__**~~ouais~~**__*
 2. hehe
 - *__**~~ouais~~**__*
-- nice
+- Nice

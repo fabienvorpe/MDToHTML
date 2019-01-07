@@ -111,4 +111,4 @@ if __name__ == "__main__":
 
     print("result : ", result)
 
-    HTMLWriter().writeResult("title - output file", result)
+    HTMLWriter().writeResult("title - output file", "fr", result)
