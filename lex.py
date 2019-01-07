@@ -13,12 +13,14 @@ tokens = (
 	'ITALIC_IDENTIFIER',
 	'CROSSED_IDENTIFIER',
 	'UNDERLINED_IDENTIFIER',
+#	'LOOP',
+	'LOOP',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
 
-literals = '-'
+literals = '-[]{}'
 
 def t_TEXT(t):
-	r"[A-Za-z ]+"
+	r"[A-Za-zÀ-ÿ .,:()]+"
 	return t
 
 def t_TITLE(t):
@@ -57,6 +59,10 @@ def t_CODE_SAMPLE(t):
 
 def t_EOL(t):
 	r"\n"
+	return t
+
+def t_LOOP(t):
+	r"!boucle!"
 	return t
 
 t_ignore  = ' \t'

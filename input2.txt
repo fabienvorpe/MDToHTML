@@ -19,3 +19,7 @@ code sample
 lots of lines
 ```
 - élément de liste seul
+!boucle![fabien, guillaume]
+{
+	:index:. coucou :element:
+}

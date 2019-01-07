@@ -22,7 +22,9 @@ def p_statement(p):
     | simple_style EOL
     | code_sample
     | TEXT EOL
-    | TEXT """
+    | TEXT
+    | loop 
+    | loop EOL """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -40,6 +42,7 @@ def p_unordered_list(p):
     | '-' simple_style EOL
     | '-' TEXT
     | '-' simple_style """
+    print("OUI")
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -85,6 +88,47 @@ def p_code_sample(p):
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
     p[0] = f"<div class='code'>{code}</div>{carriage_return}"
+
+def p_loop(p):
+    """ loop : LOOP '[' TEXT ']' EOL '{' EOL loop_content '}' 
+    | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
+
+    elements = p[3].split(", ")
+
+    # prob de passer les trucs au loop_content si on est fait un pour plusieur ligne par exemple ?
+
+    print(p[8])
+
+    result = ""
+
+    li_prefix = ""
+    li_suffix = ""
+    ol_prefix = ""
+    ol_suffix = ""
+
+    if p[8][:8] == ":index:.":    
+        li_prefix = "<li>"
+        li_suffix = "</li>"
+        ol_prefix = "<ol>"
+        ol_suffix = "</ol>"
+    
+    result += ol_prefix
+
+    for i in range(len(elements)):
+        line = p[8][8:] if p[8][:8] == ":index:." else p[8]
+        line = line.replace(":index:", str(i))
+        line = line.replace(":element:", elements[i])
+        result += li_prefix + line + ("<br/>" if "ul" not in line and "ol" not in line else "") + li_suffix
+
+    result += ol_suffix
+    p[0] = result 
+
+def p_loop_content(p):
+    """ loop_content : TEXT
+    | TITLE
+    | simple_style 
+    | unordered_list """
+    p[0] = p[1]
 
 def p_error(p):
     if p:
