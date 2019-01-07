@@ -15,13 +15,14 @@ tokens = (
 	'UNDERLINED_IDENTIFIER',
 #	'LOOP',
 	'LOOP',
+	'FIGURE',
 ) # + tuple(map(lambda s:s.upper(),reserved_words))
 
-literals = '-[]{}'
+literals = '-[]{}()'
 
 def t_TEXT(t):
 	#r"[A-Za-z ]+"
-	r"[A-Za-z ,:]+"
+	r"[A-Za-z .,:\"]+"
 	return t
 
 def t_TITLE(t):
@@ -64,6 +65,10 @@ def t_EOL(t):
 
 def t_LOOP(t):
 	r"!boucle!"
+	return t
+
+def t_FIGURE(t):
+	r"!figure!"
 	return t
 
 t_ignore  = ' \t'

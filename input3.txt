@@ -1,0 +1,8 @@
+# Lorem ipsum
+## Lorem ipsum
+### Lorem ipsum
+#### Lorem ipsum
+##### Lorem ipsum
+###### Lorem ipsum
+!figure!("space.png", "Space")
+!figure!("avsb.png", "A vs B")

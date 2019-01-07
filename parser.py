@@ -3,6 +3,8 @@ import ply.yacc as yacc
 from lex import tokens
 import AST
 from HTMLWriter import HTMLWriter
+import shutil
+
 
 
 def p_programme_statement(p):
@@ -23,7 +25,8 @@ def p_statement(p):
     | code_sample
     | TEXT EOL
     | TEXT
-    | loop """
+    | loop 
+    | figure """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -103,13 +106,36 @@ def p_loop(p):
 
     p[0] = result
 
+def p_figure(p):
+    """ figure : FIGURE '(' TEXT ')' EOL
+    | FIGURE '(' TEXT ')' """
+
+    args = p[3].split(", ")
+
+    print(p[3])
+
+    args[0] = args[0][1:-1]
+    args[1] = args[1][1:-1]
+
+    result = "<div class='box'><div class='figure'>"
+    result += f"<img src='{args[0]}' alt='{args[1]}'/>"
+    result += f"<div class='legende'>{args[1]}</div>"
+    result += "</div></div>"
+
+    try :
+        shutil.copyfile(f"resources/{args[0]}", f"output/{args[0]}")
+    except:
+        print(f"File not found : resources/{args[0]}")    
+
+    p[0] = result
+
 def p_error(p):
+   
     if p:
         print ("Syntax error in line %d" % p.lineno)
         # yacc.errok()
     else:
         print ("Sytax error: unexpected end of file!")
-
 
 precedence = (
     #('left', 'ADD_OP'),

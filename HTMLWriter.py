@@ -22,6 +22,7 @@ class HTMLWriter:
                     output.write(line)
                     if '<div id="container">' in line:
                         output.write(self._treeToText(result))
+
         webbrowser.open("file://" + os.path.realpath(output_file))
 
     def _treeToText(self, result):
