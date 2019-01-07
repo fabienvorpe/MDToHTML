@@ -21,12 +21,14 @@ def p_statement(p):
     | unordered_list
     | ordered_list
     | simple_style
-    | simple_style EOL
+    | simple_style EOL 
     | code_sample
     | TEXT EOL
     | TEXT
     | loop 
-    | figure """
+    | loop EOL
+    | figure
+    | figure EOL """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -34,8 +36,13 @@ def p_simple_style(p):
     """ simple_style : bold_text
     | italic_text
     | crossed_text
-    | underlined_text """
-    p[0] = p[1]
+    | underlined_text
+    | simple_style TEXT """
+    print(p[1])
+    try:
+        p[0] = p[1] + p[2]
+    except:
+        p[0] = p[1]
 
 def p_unordered_list(p):
     """ unordered_list : '-' TEXT EOL unordered_list
@@ -91,20 +98,36 @@ def p_code_sample(p):
     p[0] = f"<div class='code'>{code}</div>{carriage_return}"
 
 def p_loop(p):
-    """ loop : LOOP '[' TEXT ']' EOL '{' EOL TEXT EOL '}' """
+    """ loop : LOOP '[' TEXT ']' EOL '{' EOL loop_content '}' 
+    | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
+
+    print(p[8])
 
     elements = p[3].split(", ")
+    ol_list_identifier = ":index:."
+    ul_list_identifier = "<ul>"
 
-    # prob de passer les trucs au loop_content si on est fait un pour plusieur ligne par exemple ?
+    global_prefix = "<ol>"  if p[8][:8]  == ol_list_identifier else ("<ul>"  if p[8][:4] == ul_list_identifier else "")
+    global_suffix = "</ol>" if p[8][:8]  == ol_list_identifier else ("</ul>" if p[8][:4] == ul_list_identifier else "")
+    local_prefix =  "<li>"  if p[8][:8]  == ol_list_identifier else ""
+    local_suffix =  "</li>" if p[8][:8]  == ol_list_identifier else ""
+    
+    result = global_prefix
 
-    result = ""
     for i in range(len(elements)):
-        line = p[8]
+        line = p[8][8:] if p[8][:8] == ol_list_identifier else (p[8][4:-5] if p[8][:4] == ul_list_identifier else p[8])
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
-        result += line + "<br/>"
+        result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
 
-    p[0] = result
+    p[0] = result + global_suffix
+
+def p_loop_content(p):
+    """ loop_content : TEXT
+    | TITLE
+    | simple_style 
+    | unordered_list """
+    p[0] = p[1]
 
 def p_figure(p):
     """ figure : FIGURE '(' TEXT ')' EOL
@@ -112,7 +135,7 @@ def p_figure(p):
 
     args = p[3].split(", ")
 
-    print(p[3])
+    print(p[:])
 
     args[0] = args[0][1:-1]
     args[1] = args[1][1:-1]
@@ -154,4 +177,4 @@ if __name__ == "__main__":
 
     print("result : ", result)
 
-    HTMLWriter().writeResult("title - output file", result)
+    HTMLWriter().writeResult("title - output file", "fr", result)

@@ -9,7 +9,7 @@ class HTMLWriter:
         self.file_structure = "resources/file_structure.html"
         self.output_file = "output/"
 
-    def writeResult(self, title, result):
+    def writeResult(self, title, lang, result):
         """
         Writes the AST.ProgramNode's tree in HTML with the given title.
         """
@@ -17,6 +17,8 @@ class HTMLWriter:
         with open(self.file_structure, "r") as structure:
             with open(output_file, "w+") as output:
                 for line in structure.readlines():
+                    if "<html>" in line:
+                        line = "<html lang='" + lang + "'>\n"
                     if "<title></title>" in line:
                         line = "\t<title>" + title + "</title>\n"
                     output.write(line)
