@@ -21,5 +21,6 @@ lots of lines
 - élément de liste seul
 !boucle![fabien, guillaume]
 {
-	:index:. coucou :element:
+	:index:. **coucou** :element:
 }
+# on test des choses

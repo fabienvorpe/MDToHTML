@@ -42,7 +42,6 @@ def p_unordered_list(p):
     | '-' simple_style EOL
     | '-' TEXT
     | '-' simple_style """
-    print("OUI")
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -95,10 +94,6 @@ def p_loop(p):
 
     elements = p[3].split(", ")
 
-    # prob de passer les trucs au loop_content si on est fait un pour plusieur ligne par exemple ?
-
-    print(p[8])
-
     result = ""
 
     li_prefix = ""
@@ -116,9 +111,10 @@ def p_loop(p):
 
     for i in range(len(elements)):
         line = p[8][8:] if p[8][:8] == ":index:." else p[8]
+        print(line)
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
-        result += li_prefix + line + ("<br/>" if "ul" not in line and "ol" not in line else "") + li_suffix
+        result += li_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line else "") + li_suffix
 
     result += ol_suffix
     p[0] = result 
@@ -127,8 +123,13 @@ def p_loop_content(p):
     """ loop_content : TEXT
     | TITLE
     | simple_style 
-    | unordered_list """
-    p[0] = p[1]
+    | unordered_list
+    | loop_content loop_content """
+    # plusieurs lignes ?
+    try:
+        p[0] = p[1] + p[2]
+    except:
+        p[0] = p[1]
 
 def p_error(p):
     if p:
