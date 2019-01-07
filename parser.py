@@ -42,7 +42,6 @@ def p_unordered_list(p):
     | '-' simple_style EOL
     | '-' TEXT
     | '-' simple_style """
-    print("OUI")
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -94,39 +93,28 @@ def p_loop(p):
     | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
 
     elements = p[3].split(", ")
+    ol_list_identifier = ":index:."
+    ul_list_identifier = "<ul>"
 
-    # prob de passer les trucs au loop_content si on est fait un pour plusieur ligne par exemple ?
-
-    print(p[8])
-
-    result = ""
-
-    li_prefix = ""
-    li_suffix = ""
-    ol_prefix = ""
-    ol_suffix = ""
-
-    if p[8][:8] == ":index:.":    
-        li_prefix = "<li>"
-        li_suffix = "</li>"
-        ol_prefix = "<ol>"
-        ol_suffix = "</ol>"
+    global_prefix = "<ol>"  if p[8][:8]  == ol_list_identifier else ("<ul>"  if p[8][:4] == ul_list_identifier else "")
+    global_suffix = "</ol>" if p[8][:8]  == ol_list_identifier else ("</ul>" if p[8][:4] == ul_list_identifier else "")
+    local_prefix =  "<li>"  if p[8][:8]  == ol_list_identifier else ""
+    local_suffix =  "</li>" if p[8][:8]  == ol_list_identifier else ""
     
-    result += ol_prefix
+    result = global_prefix
 
     for i in range(len(elements)):
-        line = p[8][8:] if p[8][:8] == ":index:." else p[8]
+        line = p[8][8:] if p[8][:8] == ol_list_identifier else (p[8][4:-5] if p[8][:4] == ul_list_identifier else p[8])
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
-        result += li_prefix + line + ("<br/>" if "ul" not in line and "ol" not in line else "") + li_suffix
+        result += local_prefix + line + ("<br/>" if "ul" not in line and "ol" not in line and "li" not in line else "") + local_suffix
 
-    result += ol_suffix
-    p[0] = result 
+    p[0] = result + global_suffix
 
 def p_loop_content(p):
     """ loop_content : TEXT
     | TITLE
-    | simple_style 
+    | simple_style
     | unordered_list """
     p[0] = p[1]
 

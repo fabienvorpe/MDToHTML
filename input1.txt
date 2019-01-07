@@ -11,5 +11,5 @@ __simple underlined__
 - nice
 !boucle![fabien, guillaume]
 {
-	- number :index: : coucou :element:
+	- number :index: coucou :element:
 }
