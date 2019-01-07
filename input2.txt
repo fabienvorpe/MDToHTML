@@ -20,16 +20,20 @@ lots of lines
 ```
 - élément de liste seul
 # on test des choses
-!boucle![fabien, guillaume]
+!figure!["avsb.png", "salut"]
+!boucle!["fabien", "guillaume"]
 {
 	:index:. coucou :element:
 }
-!boucle![fabien, guillaume]
+!boucle!["fabien", "guillaume"]
 {
 	- :index: coucou :element:
+	- super
 }
-!boucle![fabien, guillaume]
+!boucle!["fabien", "guillaume"]
 {
 	- **~~:index:~~ coucou** :element:
 }
-!figure!("avsb.png", "salut")
+
+
+zut ~ !

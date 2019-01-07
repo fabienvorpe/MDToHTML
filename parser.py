@@ -5,8 +5,6 @@ import AST
 from HTMLWriter import HTMLWriter
 import shutil
 
-
-
 def p_programme_statement(p):
     """ programme : statement 
     | statement programme """
@@ -23,12 +21,14 @@ def p_statement(p):
     | simple_style
     | simple_style EOL 
     | code_sample
-    | TEXT EOL
-    | TEXT
     | loop 
     | loop EOL
     | figure
-    | figure EOL """
+    | figure EOL 
+    | TEXT EOL
+    | TEXT
+    | stat_error
+    | stat_error EOL """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -38,11 +38,30 @@ def p_simple_style(p):
     | crossed_text
     | underlined_text
     | simple_style TEXT """
-    print(p[1])
     try:
-        p[0] = p[1] + p[2]
+        p[0] = p[1] + " " + p[2]
     except:
         p[0] = p[1]
+
+def p_bold_text(p):
+    """ bold_text : BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    | BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER"""
+    p[0] = f"<span class='bold'>{p[2]}</span>"
+
+def p_italic_text(p):
+    """ italic_text : ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    | ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER"""
+    p[0] = f"<span class='italic'>{p[2]}</span>"
+
+def p_crossed_text(p):
+    """ crossed_text : CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    | CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER"""
+    p[0] = f"<span class='crossed'>{p[2]}</span>"
+
+def p_underlined_text(p):
+    """ underlined_text : UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+    | UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER"""
+    p[0] = f"<span class='underlined'>{p[2]}</span>"
 
 def p_unordered_list(p):
     """ unordered_list : '-' TEXT EOL unordered_list
@@ -68,26 +87,6 @@ def p_ordered_list(p):
     except:
         p[0] = f"<ol><li>{p[2]}</li></ol>"
 
-def p_bold_text(p):
-    """ bold_text : BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
-    | BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER"""
-    p[0] = f"<span class='bold'>{p[2]}</span>"
-
-def p_italic_text(p):
-    """ italic_text : ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
-    | ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER"""
-    p[0] = f"<span class='italic'>{p[2]}</span>"
-
-def p_crossed_text(p):
-    """ crossed_text : CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
-    | CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER"""
-    p[0] = f"<span class='crossed'>{p[2]}</span>"
-
-def p_underlined_text(p):
-    """ underlined_text : UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
-    | UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER"""
-    p[0] = f"<span class='underlined'>{p[2]}</span>"
-
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 
     | CODE_SAMPLE EOL"""
@@ -98,24 +97,23 @@ def p_code_sample(p):
     p[0] = f"<div class='code'>{code}</div>{carriage_return}"
 
 def p_loop(p):
-    """ loop : LOOP '[' TEXT ']' EOL '{' EOL loop_content '}' 
-    | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
+    """ loop : LOOP EOL '{' EOL loop_content '}' 
+    | LOOP EOL '{' EOL loop_content EOL '}' """
+    args = p[1][9:-1].split("\"")
+    elements = [args[1], args[3]]
 
-    print(p[8])
-
-    elements = p[3].split(", ")
     ol_list_identifier = ":index:."
     ul_list_identifier = "<ul>"
 
-    global_prefix = "<ol>"  if p[8][:8]  == ol_list_identifier else ("<ul>"  if p[8][:4] == ul_list_identifier else "")
-    global_suffix = "</ol>" if p[8][:8]  == ol_list_identifier else ("</ul>" if p[8][:4] == ul_list_identifier else "")
-    local_prefix =  "<li>"  if p[8][:8]  == ol_list_identifier else ""
-    local_suffix =  "</li>" if p[8][:8]  == ol_list_identifier else ""
+    global_prefix = "<ol>"  if p[5][:8]  == ol_list_identifier else ("<ul>"  if p[5][:4] == ul_list_identifier else "")
+    global_suffix = "</ol>" if p[5][:8]  == ol_list_identifier else ("</ul>" if p[5][:4] == ul_list_identifier else "")
+    local_prefix =  "<li>"  if p[5][:8]  == ol_list_identifier else ""
+    local_suffix =  "</li>" if p[5][:8]  == ol_list_identifier else ""
     
     result = global_prefix
 
     for i in range(len(elements)):
-        line = p[8][8:] if p[8][:8] == ol_list_identifier else (p[8][4:-5] if p[8][:4] == ul_list_identifier else p[8])
+        line = p[5][8:] if p[5][:8] == ol_list_identifier else (p[5][4:-5] if p[5][:4] == ul_list_identifier else p[5])
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
         result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
@@ -130,44 +128,38 @@ def p_loop_content(p):
     p[0] = p[1]
 
 def p_figure(p):
-    """ figure : FIGURE '(' TEXT ')' EOL
-    | FIGURE '(' TEXT ')' """
-
-    args = p[3].split(", ")
-
-    print(p[:])
-
-    args[0] = args[0][1:-1]
-    args[1] = args[1][1:-1]
+    """ figure : FIGURE EOL
+    | FIGURE """
+    args = p[1][9:-1].split("\"")
+    src = args[1]
+    alt = args[3]
 
     result = "<div class='box'><div class='figure'>"
-    result += f"<img src='{args[0]}' alt='{args[1]}'/>"
-    result += f"<div class='legende'>{args[1]}</div>"
+    result += f"<img src='{src}' alt='{alt}'/>"
+    result += f"<div class='legende'>{alt}</div>"
     result += "</div></div>"
 
     try :
-        shutil.copyfile(f"resources/{args[0]}", f"output/{args[0]}")
+        shutil.copyfile(f"resources/{src}", f"output/{src}")
     except:
-        print(f"File not found : resources/{args[0]}")    
+        print(f"File not found : resources/{src}")    
 
     p[0] = result
 
-def p_error(p):
-   
-    if p:
-        print ("Syntax error in line %d" % p.lineno)
-        # yacc.errok()
-    else:
-        print ("Sytax error: unexpected end of file!")
+def p_stat_error(p):
+    """ stat_error : error """
+    print("Stat error")
+    p[0] = ""
 
-precedence = (
-    #('left', 'ADD_OP'),
-)
+def p_error(p):
+    print("Error", p)
+    if p is not None:
+        parser.errok()
 
 def parse(program):
     return yacc.parse(program)
 
-yacc.yacc(outputdir='generated')
+parser = yacc.yacc(outputdir='generated')
 
 if __name__ == "__main__":
     import sys 

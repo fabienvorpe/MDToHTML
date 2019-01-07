@@ -1,8 +1,5 @@
 import ply.lex as lex
 
-reserved_words = (
-)
-
 tokens = (
 	'TITLE',
 	'TEXT',
@@ -15,13 +12,9 @@ tokens = (
 	'UNDERLINED_IDENTIFIER',
 	'LOOP',
 	'FIGURE',
-) # + tuple(map(lambda s:s.upper(),reserved_words))
+)
 
-literals = '-[]{}()'
-
-def t_TEXT(t):
-	r"[A-Za-zÀ-ÿ .,:\"]+"
-	return t
+literals = '-{}'
 
 def t_TITLE(t):
 	r"\#+[ ].+"
@@ -62,17 +55,20 @@ def t_EOL(t):
 	return t
 
 def t_LOOP(t):
-	r"!boucle!"
+	r"(!boucle!\[.+\])"
 	return t
 
 def t_FIGURE(t):
-	r"!figure!"
+	r"(!figure!\[.+\])"
+	return t
+
+def t_TEXT(t):
+	r"[^(\n)(\*\*)(\*)(\~\~)(\_\_)(\{)(\})(\-)]+"
 	return t
 
 t_ignore  = ' \t'
 
 def t_error(t):
-	print ("Illegal character '%s'" % repr(t.value[0]))
 	t.lexer.skip(1)
 
 lex.lex()
