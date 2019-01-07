@@ -1,0 +1,1373 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programme
+Rule 1     programme -> statement
+Rule 2     programme -> statement programme
+Rule 3     statement -> TITLE EOL
+Rule 4     statement -> TITLE
+Rule 5     statement -> unordered_list
+Rule 6     statement -> ordered_list
+Rule 7     statement -> simple_style
+Rule 8     statement -> simple_style EOL
+Rule 9     statement -> code_sample
+Rule 10    statement -> TEXT EOL
+Rule 11    statement -> TEXT
+Rule 12    statement -> loop
+Rule 13    statement -> figure
+Rule 14    simple_style -> bold_text
+Rule 15    simple_style -> italic_text
+Rule 16    simple_style -> crossed_text
+Rule 17    simple_style -> underlined_text
+Rule 18    unordered_list -> - TEXT EOL unordered_list
+Rule 19    unordered_list -> - simple_style EOL unordered_list
+Rule 20    unordered_list -> - TEXT EOL
+Rule 21    unordered_list -> - simple_style EOL
+Rule 22    unordered_list -> - TEXT
+Rule 23    unordered_list -> - simple_style
+Rule 24    ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list
+Rule 25    ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list
+Rule 26    ordered_list -> ORDERED_LIST_INDEX TEXT EOL
+Rule 27    ordered_list -> ORDERED_LIST_INDEX simple_style EOL
+Rule 28    ordered_list -> ORDERED_LIST_INDEX TEXT
+Rule 29    ordered_list -> ORDERED_LIST_INDEX simple_style
+Rule 30    bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+Rule 31    bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+Rule 32    italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+Rule 33    italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+Rule 34    crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+Rule 35    crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+Rule 36    underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+Rule 37    underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+Rule 38    code_sample -> CODE_SAMPLE
+Rule 39    code_sample -> CODE_SAMPLE EOL
+Rule 40    loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL }
+Rule 41    figure -> FIGURE ( TEXT ) EOL
+Rule 42    figure -> FIGURE ( TEXT )
+
+Terminals, with rules where they appear
+
+(                    : 41 42
+)                    : 41 42
+-                    : 18 19 20 21 22 23
+BOLD_IDENTIFIER      : 30 30 31 31
+CODE_SAMPLE          : 38 39
+CROSSED_IDENTIFIER   : 34 34 35 35
+EOL                  : 3 8 10 18 19 20 21 24 25 26 27 39 40 40 40 41
+FIGURE               : 41 42
+ITALIC_IDENTIFIER    : 32 32 33 33
+LOOP                 : 40
+ORDERED_LIST_INDEX   : 24 25 26 27 28 29
+TEXT                 : 10 11 18 20 22 24 26 28 30 32 34 36 40 40 41 42
+TITLE                : 3 4
+UNDERLINED_IDENTIFIER : 36 36 37 37
+[                    : 40
+]                    : 40
+error                : 
+{                    : 40
+}                    : 40
+
+Nonterminals, with rules where they appear
+
+bold_text            : 14
+code_sample          : 9
+crossed_text         : 16
+figure               : 13
+italic_text          : 15
+loop                 : 12
+ordered_list         : 6 24 25
+programme            : 2 0
+simple_style         : 7 8 19 21 23 25 27 29 31 33 35 37
+statement            : 1 2
+underlined_text      : 17
+unordered_list       : 5 18 19
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programme
+    (1) programme -> . statement
+    (2) programme -> . statement programme
+    (3) statement -> . TITLE EOL
+    (4) statement -> . TITLE
+    (5) statement -> . unordered_list
+    (6) statement -> . ordered_list
+    (7) statement -> . simple_style
+    (8) statement -> . simple_style EOL
+    (9) statement -> . code_sample
+    (10) statement -> . TEXT EOL
+    (11) statement -> . TEXT
+    (12) statement -> . loop
+    (13) statement -> . figure
+    (18) unordered_list -> . - TEXT EOL unordered_list
+    (19) unordered_list -> . - simple_style EOL unordered_list
+    (20) unordered_list -> . - TEXT EOL
+    (21) unordered_list -> . - simple_style EOL
+    (22) unordered_list -> . - TEXT
+    (23) unordered_list -> . - simple_style
+    (24) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL ordered_list
+    (25) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL ordered_list
+    (26) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL
+    (27) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL
+    (28) ordered_list -> . ORDERED_LIST_INDEX TEXT
+    (29) ordered_list -> . ORDERED_LIST_INDEX simple_style
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (38) code_sample -> . CODE_SAMPLE
+    (39) code_sample -> . CODE_SAMPLE EOL
+    (40) loop -> . LOOP [ TEXT ] EOL { EOL TEXT EOL }
+    (41) figure -> . FIGURE ( TEXT ) EOL
+    (42) figure -> . FIGURE ( TEXT )
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TITLE           shift and go to state 3
+    TEXT            shift and go to state 8
+    -               shift and go to state 11
+    ORDERED_LIST_INDEX shift and go to state 12
+    CODE_SAMPLE     shift and go to state 17
+    LOOP            shift and go to state 18
+    FIGURE          shift and go to state 19
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    programme                      shift and go to state 1
+    statement                      shift and go to state 2
+    unordered_list                 shift and go to state 4
+    ordered_list                   shift and go to state 5
+    simple_style                   shift and go to state 6
+    code_sample                    shift and go to state 7
+    loop                           shift and go to state 9
+    figure                         shift and go to state 10
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 1
+
+    (0) S' -> programme .
+
+
+
+state 2
+
+    (1) programme -> statement .
+    (2) programme -> statement . programme
+    (1) programme -> . statement
+    (2) programme -> . statement programme
+    (3) statement -> . TITLE EOL
+    (4) statement -> . TITLE
+    (5) statement -> . unordered_list
+    (6) statement -> . ordered_list
+    (7) statement -> . simple_style
+    (8) statement -> . simple_style EOL
+    (9) statement -> . code_sample
+    (10) statement -> . TEXT EOL
+    (11) statement -> . TEXT
+    (12) statement -> . loop
+    (13) statement -> . figure
+    (18) unordered_list -> . - TEXT EOL unordered_list
+    (19) unordered_list -> . - simple_style EOL unordered_list
+    (20) unordered_list -> . - TEXT EOL
+    (21) unordered_list -> . - simple_style EOL
+    (22) unordered_list -> . - TEXT
+    (23) unordered_list -> . - simple_style
+    (24) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL ordered_list
+    (25) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL ordered_list
+    (26) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL
+    (27) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL
+    (28) ordered_list -> . ORDERED_LIST_INDEX TEXT
+    (29) ordered_list -> . ORDERED_LIST_INDEX simple_style
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (38) code_sample -> . CODE_SAMPLE
+    (39) code_sample -> . CODE_SAMPLE EOL
+    (40) loop -> . LOOP [ TEXT ] EOL { EOL TEXT EOL }
+    (41) figure -> . FIGURE ( TEXT ) EOL
+    (42) figure -> . FIGURE ( TEXT )
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    $end            reduce using rule 1 (programme -> statement .)
+    TITLE           shift and go to state 3
+    TEXT            shift and go to state 8
+    -               shift and go to state 11
+    ORDERED_LIST_INDEX shift and go to state 12
+    CODE_SAMPLE     shift and go to state 17
+    LOOP            shift and go to state 18
+    FIGURE          shift and go to state 19
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    statement                      shift and go to state 2
+    programme                      shift and go to state 24
+    unordered_list                 shift and go to state 4
+    ordered_list                   shift and go to state 5
+    simple_style                   shift and go to state 6
+    code_sample                    shift and go to state 7
+    loop                           shift and go to state 9
+    figure                         shift and go to state 10
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 3
+
+    (3) statement -> TITLE . EOL
+    (4) statement -> TITLE .
+
+    EOL             shift and go to state 25
+    TITLE           reduce using rule 4 (statement -> TITLE .)
+    TEXT            reduce using rule 4 (statement -> TITLE .)
+    -               reduce using rule 4 (statement -> TITLE .)
+    ORDERED_LIST_INDEX reduce using rule 4 (statement -> TITLE .)
+    CODE_SAMPLE     reduce using rule 4 (statement -> TITLE .)
+    LOOP            reduce using rule 4 (statement -> TITLE .)
+    FIGURE          reduce using rule 4 (statement -> TITLE .)
+    BOLD_IDENTIFIER reduce using rule 4 (statement -> TITLE .)
+    ITALIC_IDENTIFIER reduce using rule 4 (statement -> TITLE .)
+    CROSSED_IDENTIFIER reduce using rule 4 (statement -> TITLE .)
+    UNDERLINED_IDENTIFIER reduce using rule 4 (statement -> TITLE .)
+    $end            reduce using rule 4 (statement -> TITLE .)
+
+
+state 4
+
+    (5) statement -> unordered_list .
+
+    TITLE           reduce using rule 5 (statement -> unordered_list .)
+    TEXT            reduce using rule 5 (statement -> unordered_list .)
+    -               reduce using rule 5 (statement -> unordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 5 (statement -> unordered_list .)
+    CODE_SAMPLE     reduce using rule 5 (statement -> unordered_list .)
+    LOOP            reduce using rule 5 (statement -> unordered_list .)
+    FIGURE          reduce using rule 5 (statement -> unordered_list .)
+    BOLD_IDENTIFIER reduce using rule 5 (statement -> unordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 5 (statement -> unordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 5 (statement -> unordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 5 (statement -> unordered_list .)
+    $end            reduce using rule 5 (statement -> unordered_list .)
+
+
+state 5
+
+    (6) statement -> ordered_list .
+
+    TITLE           reduce using rule 6 (statement -> ordered_list .)
+    TEXT            reduce using rule 6 (statement -> ordered_list .)
+    -               reduce using rule 6 (statement -> ordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 6 (statement -> ordered_list .)
+    CODE_SAMPLE     reduce using rule 6 (statement -> ordered_list .)
+    LOOP            reduce using rule 6 (statement -> ordered_list .)
+    FIGURE          reduce using rule 6 (statement -> ordered_list .)
+    BOLD_IDENTIFIER reduce using rule 6 (statement -> ordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 6 (statement -> ordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 6 (statement -> ordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 6 (statement -> ordered_list .)
+    $end            reduce using rule 6 (statement -> ordered_list .)
+
+
+state 6
+
+    (7) statement -> simple_style .
+    (8) statement -> simple_style . EOL
+
+    TITLE           reduce using rule 7 (statement -> simple_style .)
+    TEXT            reduce using rule 7 (statement -> simple_style .)
+    -               reduce using rule 7 (statement -> simple_style .)
+    ORDERED_LIST_INDEX reduce using rule 7 (statement -> simple_style .)
+    CODE_SAMPLE     reduce using rule 7 (statement -> simple_style .)
+    LOOP            reduce using rule 7 (statement -> simple_style .)
+    FIGURE          reduce using rule 7 (statement -> simple_style .)
+    BOLD_IDENTIFIER reduce using rule 7 (statement -> simple_style .)
+    ITALIC_IDENTIFIER reduce using rule 7 (statement -> simple_style .)
+    CROSSED_IDENTIFIER reduce using rule 7 (statement -> simple_style .)
+    UNDERLINED_IDENTIFIER reduce using rule 7 (statement -> simple_style .)
+    $end            reduce using rule 7 (statement -> simple_style .)
+    EOL             shift and go to state 26
+
+
+state 7
+
+    (9) statement -> code_sample .
+
+    TITLE           reduce using rule 9 (statement -> code_sample .)
+    TEXT            reduce using rule 9 (statement -> code_sample .)
+    -               reduce using rule 9 (statement -> code_sample .)
+    ORDERED_LIST_INDEX reduce using rule 9 (statement -> code_sample .)
+    CODE_SAMPLE     reduce using rule 9 (statement -> code_sample .)
+    LOOP            reduce using rule 9 (statement -> code_sample .)
+    FIGURE          reduce using rule 9 (statement -> code_sample .)
+    BOLD_IDENTIFIER reduce using rule 9 (statement -> code_sample .)
+    ITALIC_IDENTIFIER reduce using rule 9 (statement -> code_sample .)
+    CROSSED_IDENTIFIER reduce using rule 9 (statement -> code_sample .)
+    UNDERLINED_IDENTIFIER reduce using rule 9 (statement -> code_sample .)
+    $end            reduce using rule 9 (statement -> code_sample .)
+
+
+state 8
+
+    (10) statement -> TEXT . EOL
+    (11) statement -> TEXT .
+
+    EOL             shift and go to state 27
+    TITLE           reduce using rule 11 (statement -> TEXT .)
+    TEXT            reduce using rule 11 (statement -> TEXT .)
+    -               reduce using rule 11 (statement -> TEXT .)
+    ORDERED_LIST_INDEX reduce using rule 11 (statement -> TEXT .)
+    CODE_SAMPLE     reduce using rule 11 (statement -> TEXT .)
+    LOOP            reduce using rule 11 (statement -> TEXT .)
+    FIGURE          reduce using rule 11 (statement -> TEXT .)
+    BOLD_IDENTIFIER reduce using rule 11 (statement -> TEXT .)
+    ITALIC_IDENTIFIER reduce using rule 11 (statement -> TEXT .)
+    CROSSED_IDENTIFIER reduce using rule 11 (statement -> TEXT .)
+    UNDERLINED_IDENTIFIER reduce using rule 11 (statement -> TEXT .)
+    $end            reduce using rule 11 (statement -> TEXT .)
+
+
+state 9
+
+    (12) statement -> loop .
+
+    TITLE           reduce using rule 12 (statement -> loop .)
+    TEXT            reduce using rule 12 (statement -> loop .)
+    -               reduce using rule 12 (statement -> loop .)
+    ORDERED_LIST_INDEX reduce using rule 12 (statement -> loop .)
+    CODE_SAMPLE     reduce using rule 12 (statement -> loop .)
+    LOOP            reduce using rule 12 (statement -> loop .)
+    FIGURE          reduce using rule 12 (statement -> loop .)
+    BOLD_IDENTIFIER reduce using rule 12 (statement -> loop .)
+    ITALIC_IDENTIFIER reduce using rule 12 (statement -> loop .)
+    CROSSED_IDENTIFIER reduce using rule 12 (statement -> loop .)
+    UNDERLINED_IDENTIFIER reduce using rule 12 (statement -> loop .)
+    $end            reduce using rule 12 (statement -> loop .)
+
+
+state 10
+
+    (13) statement -> figure .
+
+    TITLE           reduce using rule 13 (statement -> figure .)
+    TEXT            reduce using rule 13 (statement -> figure .)
+    -               reduce using rule 13 (statement -> figure .)
+    ORDERED_LIST_INDEX reduce using rule 13 (statement -> figure .)
+    CODE_SAMPLE     reduce using rule 13 (statement -> figure .)
+    LOOP            reduce using rule 13 (statement -> figure .)
+    FIGURE          reduce using rule 13 (statement -> figure .)
+    BOLD_IDENTIFIER reduce using rule 13 (statement -> figure .)
+    ITALIC_IDENTIFIER reduce using rule 13 (statement -> figure .)
+    CROSSED_IDENTIFIER reduce using rule 13 (statement -> figure .)
+    UNDERLINED_IDENTIFIER reduce using rule 13 (statement -> figure .)
+    $end            reduce using rule 13 (statement -> figure .)
+
+
+state 11
+
+    (18) unordered_list -> - . TEXT EOL unordered_list
+    (19) unordered_list -> - . simple_style EOL unordered_list
+    (20) unordered_list -> - . TEXT EOL
+    (21) unordered_list -> - . simple_style EOL
+    (22) unordered_list -> - . TEXT
+    (23) unordered_list -> - . simple_style
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 28
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 29
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 12
+
+    (24) ordered_list -> ORDERED_LIST_INDEX . TEXT EOL ordered_list
+    (25) ordered_list -> ORDERED_LIST_INDEX . simple_style EOL ordered_list
+    (26) ordered_list -> ORDERED_LIST_INDEX . TEXT EOL
+    (27) ordered_list -> ORDERED_LIST_INDEX . simple_style EOL
+    (28) ordered_list -> ORDERED_LIST_INDEX . TEXT
+    (29) ordered_list -> ORDERED_LIST_INDEX . simple_style
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 30
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 31
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 13
+
+    (14) simple_style -> bold_text .
+
+    EOL             reduce using rule 14 (simple_style -> bold_text .)
+    TITLE           reduce using rule 14 (simple_style -> bold_text .)
+    TEXT            reduce using rule 14 (simple_style -> bold_text .)
+    -               reduce using rule 14 (simple_style -> bold_text .)
+    ORDERED_LIST_INDEX reduce using rule 14 (simple_style -> bold_text .)
+    CODE_SAMPLE     reduce using rule 14 (simple_style -> bold_text .)
+    LOOP            reduce using rule 14 (simple_style -> bold_text .)
+    FIGURE          reduce using rule 14 (simple_style -> bold_text .)
+    BOLD_IDENTIFIER reduce using rule 14 (simple_style -> bold_text .)
+    ITALIC_IDENTIFIER reduce using rule 14 (simple_style -> bold_text .)
+    CROSSED_IDENTIFIER reduce using rule 14 (simple_style -> bold_text .)
+    UNDERLINED_IDENTIFIER reduce using rule 14 (simple_style -> bold_text .)
+    $end            reduce using rule 14 (simple_style -> bold_text .)
+
+
+state 14
+
+    (15) simple_style -> italic_text .
+
+    EOL             reduce using rule 15 (simple_style -> italic_text .)
+    TITLE           reduce using rule 15 (simple_style -> italic_text .)
+    TEXT            reduce using rule 15 (simple_style -> italic_text .)
+    -               reduce using rule 15 (simple_style -> italic_text .)
+    ORDERED_LIST_INDEX reduce using rule 15 (simple_style -> italic_text .)
+    CODE_SAMPLE     reduce using rule 15 (simple_style -> italic_text .)
+    LOOP            reduce using rule 15 (simple_style -> italic_text .)
+    FIGURE          reduce using rule 15 (simple_style -> italic_text .)
+    BOLD_IDENTIFIER reduce using rule 15 (simple_style -> italic_text .)
+    ITALIC_IDENTIFIER reduce using rule 15 (simple_style -> italic_text .)
+    CROSSED_IDENTIFIER reduce using rule 15 (simple_style -> italic_text .)
+    UNDERLINED_IDENTIFIER reduce using rule 15 (simple_style -> italic_text .)
+    $end            reduce using rule 15 (simple_style -> italic_text .)
+
+
+state 15
+
+    (16) simple_style -> crossed_text .
+
+    EOL             reduce using rule 16 (simple_style -> crossed_text .)
+    TITLE           reduce using rule 16 (simple_style -> crossed_text .)
+    TEXT            reduce using rule 16 (simple_style -> crossed_text .)
+    -               reduce using rule 16 (simple_style -> crossed_text .)
+    ORDERED_LIST_INDEX reduce using rule 16 (simple_style -> crossed_text .)
+    CODE_SAMPLE     reduce using rule 16 (simple_style -> crossed_text .)
+    LOOP            reduce using rule 16 (simple_style -> crossed_text .)
+    FIGURE          reduce using rule 16 (simple_style -> crossed_text .)
+    BOLD_IDENTIFIER reduce using rule 16 (simple_style -> crossed_text .)
+    ITALIC_IDENTIFIER reduce using rule 16 (simple_style -> crossed_text .)
+    CROSSED_IDENTIFIER reduce using rule 16 (simple_style -> crossed_text .)
+    UNDERLINED_IDENTIFIER reduce using rule 16 (simple_style -> crossed_text .)
+    $end            reduce using rule 16 (simple_style -> crossed_text .)
+
+
+state 16
+
+    (17) simple_style -> underlined_text .
+
+    EOL             reduce using rule 17 (simple_style -> underlined_text .)
+    TITLE           reduce using rule 17 (simple_style -> underlined_text .)
+    TEXT            reduce using rule 17 (simple_style -> underlined_text .)
+    -               reduce using rule 17 (simple_style -> underlined_text .)
+    ORDERED_LIST_INDEX reduce using rule 17 (simple_style -> underlined_text .)
+    CODE_SAMPLE     reduce using rule 17 (simple_style -> underlined_text .)
+    LOOP            reduce using rule 17 (simple_style -> underlined_text .)
+    FIGURE          reduce using rule 17 (simple_style -> underlined_text .)
+    BOLD_IDENTIFIER reduce using rule 17 (simple_style -> underlined_text .)
+    ITALIC_IDENTIFIER reduce using rule 17 (simple_style -> underlined_text .)
+    CROSSED_IDENTIFIER reduce using rule 17 (simple_style -> underlined_text .)
+    UNDERLINED_IDENTIFIER reduce using rule 17 (simple_style -> underlined_text .)
+    $end            reduce using rule 17 (simple_style -> underlined_text .)
+
+
+state 17
+
+    (38) code_sample -> CODE_SAMPLE .
+    (39) code_sample -> CODE_SAMPLE . EOL
+
+    TITLE           reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    TEXT            reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    -               reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    ORDERED_LIST_INDEX reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    CODE_SAMPLE     reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    LOOP            reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    FIGURE          reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    BOLD_IDENTIFIER reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    ITALIC_IDENTIFIER reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    CROSSED_IDENTIFIER reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    UNDERLINED_IDENTIFIER reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    $end            reduce using rule 38 (code_sample -> CODE_SAMPLE .)
+    EOL             shift and go to state 32
+
+
+state 18
+
+    (40) loop -> LOOP . [ TEXT ] EOL { EOL TEXT EOL }
+
+    [               shift and go to state 33
+
+
+state 19
+
+    (41) figure -> FIGURE . ( TEXT ) EOL
+    (42) figure -> FIGURE . ( TEXT )
+
+    (               shift and go to state 34
+
+
+state 20
+
+    (30) bold_text -> BOLD_IDENTIFIER . TEXT BOLD_IDENTIFIER
+    (31) bold_text -> BOLD_IDENTIFIER . simple_style BOLD_IDENTIFIER
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 35
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 36
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 21
+
+    (32) italic_text -> ITALIC_IDENTIFIER . TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> ITALIC_IDENTIFIER . simple_style ITALIC_IDENTIFIER
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 37
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 38
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 22
+
+    (34) crossed_text -> CROSSED_IDENTIFIER . TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> CROSSED_IDENTIFIER . simple_style CROSSED_IDENTIFIER
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 39
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 40
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 23
+
+    (36) underlined_text -> UNDERLINED_IDENTIFIER . TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> UNDERLINED_IDENTIFIER . simple_style UNDERLINED_IDENTIFIER
+    (14) simple_style -> . bold_text
+    (15) simple_style -> . italic_text
+    (16) simple_style -> . crossed_text
+    (17) simple_style -> . underlined_text
+    (30) bold_text -> . BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER
+    (31) bold_text -> . BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
+    (32) italic_text -> . ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER
+    (33) italic_text -> . ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
+    (34) crossed_text -> . CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER
+    (35) crossed_text -> . CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
+    (36) underlined_text -> . UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER
+    (37) underlined_text -> . UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
+
+    TEXT            shift and go to state 41
+    BOLD_IDENTIFIER shift and go to state 20
+    ITALIC_IDENTIFIER shift and go to state 21
+    CROSSED_IDENTIFIER shift and go to state 22
+    UNDERLINED_IDENTIFIER shift and go to state 23
+
+    simple_style                   shift and go to state 42
+    bold_text                      shift and go to state 13
+    italic_text                    shift and go to state 14
+    crossed_text                   shift and go to state 15
+    underlined_text                shift and go to state 16
+
+state 24
+
+    (2) programme -> statement programme .
+
+    $end            reduce using rule 2 (programme -> statement programme .)
+
+
+state 25
+
+    (3) statement -> TITLE EOL .
+
+    TITLE           reduce using rule 3 (statement -> TITLE EOL .)
+    TEXT            reduce using rule 3 (statement -> TITLE EOL .)
+    -               reduce using rule 3 (statement -> TITLE EOL .)
+    ORDERED_LIST_INDEX reduce using rule 3 (statement -> TITLE EOL .)
+    CODE_SAMPLE     reduce using rule 3 (statement -> TITLE EOL .)
+    LOOP            reduce using rule 3 (statement -> TITLE EOL .)
+    FIGURE          reduce using rule 3 (statement -> TITLE EOL .)
+    BOLD_IDENTIFIER reduce using rule 3 (statement -> TITLE EOL .)
+    ITALIC_IDENTIFIER reduce using rule 3 (statement -> TITLE EOL .)
+    CROSSED_IDENTIFIER reduce using rule 3 (statement -> TITLE EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 3 (statement -> TITLE EOL .)
+    $end            reduce using rule 3 (statement -> TITLE EOL .)
+
+
+state 26
+
+    (8) statement -> simple_style EOL .
+
+    TITLE           reduce using rule 8 (statement -> simple_style EOL .)
+    TEXT            reduce using rule 8 (statement -> simple_style EOL .)
+    -               reduce using rule 8 (statement -> simple_style EOL .)
+    ORDERED_LIST_INDEX reduce using rule 8 (statement -> simple_style EOL .)
+    CODE_SAMPLE     reduce using rule 8 (statement -> simple_style EOL .)
+    LOOP            reduce using rule 8 (statement -> simple_style EOL .)
+    FIGURE          reduce using rule 8 (statement -> simple_style EOL .)
+    BOLD_IDENTIFIER reduce using rule 8 (statement -> simple_style EOL .)
+    ITALIC_IDENTIFIER reduce using rule 8 (statement -> simple_style EOL .)
+    CROSSED_IDENTIFIER reduce using rule 8 (statement -> simple_style EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 8 (statement -> simple_style EOL .)
+    $end            reduce using rule 8 (statement -> simple_style EOL .)
+
+
+state 27
+
+    (10) statement -> TEXT EOL .
+
+    TITLE           reduce using rule 10 (statement -> TEXT EOL .)
+    TEXT            reduce using rule 10 (statement -> TEXT EOL .)
+    -               reduce using rule 10 (statement -> TEXT EOL .)
+    ORDERED_LIST_INDEX reduce using rule 10 (statement -> TEXT EOL .)
+    CODE_SAMPLE     reduce using rule 10 (statement -> TEXT EOL .)
+    LOOP            reduce using rule 10 (statement -> TEXT EOL .)
+    FIGURE          reduce using rule 10 (statement -> TEXT EOL .)
+    BOLD_IDENTIFIER reduce using rule 10 (statement -> TEXT EOL .)
+    ITALIC_IDENTIFIER reduce using rule 10 (statement -> TEXT EOL .)
+    CROSSED_IDENTIFIER reduce using rule 10 (statement -> TEXT EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 10 (statement -> TEXT EOL .)
+    $end            reduce using rule 10 (statement -> TEXT EOL .)
+
+
+state 28
+
+    (18) unordered_list -> - TEXT . EOL unordered_list
+    (20) unordered_list -> - TEXT . EOL
+    (22) unordered_list -> - TEXT .
+
+    EOL             shift and go to state 43
+    TITLE           reduce using rule 22 (unordered_list -> - TEXT .)
+    TEXT            reduce using rule 22 (unordered_list -> - TEXT .)
+    -               reduce using rule 22 (unordered_list -> - TEXT .)
+    ORDERED_LIST_INDEX reduce using rule 22 (unordered_list -> - TEXT .)
+    CODE_SAMPLE     reduce using rule 22 (unordered_list -> - TEXT .)
+    LOOP            reduce using rule 22 (unordered_list -> - TEXT .)
+    FIGURE          reduce using rule 22 (unordered_list -> - TEXT .)
+    BOLD_IDENTIFIER reduce using rule 22 (unordered_list -> - TEXT .)
+    ITALIC_IDENTIFIER reduce using rule 22 (unordered_list -> - TEXT .)
+    CROSSED_IDENTIFIER reduce using rule 22 (unordered_list -> - TEXT .)
+    UNDERLINED_IDENTIFIER reduce using rule 22 (unordered_list -> - TEXT .)
+    $end            reduce using rule 22 (unordered_list -> - TEXT .)
+
+
+state 29
+
+    (19) unordered_list -> - simple_style . EOL unordered_list
+    (21) unordered_list -> - simple_style . EOL
+    (23) unordered_list -> - simple_style .
+
+    EOL             shift and go to state 44
+    TITLE           reduce using rule 23 (unordered_list -> - simple_style .)
+    TEXT            reduce using rule 23 (unordered_list -> - simple_style .)
+    -               reduce using rule 23 (unordered_list -> - simple_style .)
+    ORDERED_LIST_INDEX reduce using rule 23 (unordered_list -> - simple_style .)
+    CODE_SAMPLE     reduce using rule 23 (unordered_list -> - simple_style .)
+    LOOP            reduce using rule 23 (unordered_list -> - simple_style .)
+    FIGURE          reduce using rule 23 (unordered_list -> - simple_style .)
+    BOLD_IDENTIFIER reduce using rule 23 (unordered_list -> - simple_style .)
+    ITALIC_IDENTIFIER reduce using rule 23 (unordered_list -> - simple_style .)
+    CROSSED_IDENTIFIER reduce using rule 23 (unordered_list -> - simple_style .)
+    UNDERLINED_IDENTIFIER reduce using rule 23 (unordered_list -> - simple_style .)
+    $end            reduce using rule 23 (unordered_list -> - simple_style .)
+
+
+state 30
+
+    (24) ordered_list -> ORDERED_LIST_INDEX TEXT . EOL ordered_list
+    (26) ordered_list -> ORDERED_LIST_INDEX TEXT . EOL
+    (28) ordered_list -> ORDERED_LIST_INDEX TEXT .
+
+    EOL             shift and go to state 45
+    TITLE           reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    TEXT            reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    -               reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    ORDERED_LIST_INDEX reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    CODE_SAMPLE     reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    LOOP            reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    FIGURE          reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    BOLD_IDENTIFIER reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    ITALIC_IDENTIFIER reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    CROSSED_IDENTIFIER reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    UNDERLINED_IDENTIFIER reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+    $end            reduce using rule 28 (ordered_list -> ORDERED_LIST_INDEX TEXT .)
+
+
+state 31
+
+    (25) ordered_list -> ORDERED_LIST_INDEX simple_style . EOL ordered_list
+    (27) ordered_list -> ORDERED_LIST_INDEX simple_style . EOL
+    (29) ordered_list -> ORDERED_LIST_INDEX simple_style .
+
+    EOL             shift and go to state 46
+    TITLE           reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    TEXT            reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    -               reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    ORDERED_LIST_INDEX reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    CODE_SAMPLE     reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    LOOP            reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    FIGURE          reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    BOLD_IDENTIFIER reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    ITALIC_IDENTIFIER reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    CROSSED_IDENTIFIER reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    UNDERLINED_IDENTIFIER reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+    $end            reduce using rule 29 (ordered_list -> ORDERED_LIST_INDEX simple_style .)
+
+
+state 32
+
+    (39) code_sample -> CODE_SAMPLE EOL .
+
+    TITLE           reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    TEXT            reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    -               reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    ORDERED_LIST_INDEX reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    CODE_SAMPLE     reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    LOOP            reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    FIGURE          reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    BOLD_IDENTIFIER reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    ITALIC_IDENTIFIER reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    CROSSED_IDENTIFIER reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+    $end            reduce using rule 39 (code_sample -> CODE_SAMPLE EOL .)
+
+
+state 33
+
+    (40) loop -> LOOP [ . TEXT ] EOL { EOL TEXT EOL }
+
+    TEXT            shift and go to state 47
+
+
+state 34
+
+    (41) figure -> FIGURE ( . TEXT ) EOL
+    (42) figure -> FIGURE ( . TEXT )
+
+    TEXT            shift and go to state 48
+
+
+state 35
+
+    (30) bold_text -> BOLD_IDENTIFIER TEXT . BOLD_IDENTIFIER
+
+    BOLD_IDENTIFIER shift and go to state 49
+
+
+state 36
+
+    (31) bold_text -> BOLD_IDENTIFIER simple_style . BOLD_IDENTIFIER
+
+    BOLD_IDENTIFIER shift and go to state 50
+
+
+state 37
+
+    (32) italic_text -> ITALIC_IDENTIFIER TEXT . ITALIC_IDENTIFIER
+
+    ITALIC_IDENTIFIER shift and go to state 51
+
+
+state 38
+
+    (33) italic_text -> ITALIC_IDENTIFIER simple_style . ITALIC_IDENTIFIER
+
+    ITALIC_IDENTIFIER shift and go to state 52
+
+
+state 39
+
+    (34) crossed_text -> CROSSED_IDENTIFIER TEXT . CROSSED_IDENTIFIER
+
+    CROSSED_IDENTIFIER shift and go to state 53
+
+
+state 40
+
+    (35) crossed_text -> CROSSED_IDENTIFIER simple_style . CROSSED_IDENTIFIER
+
+    CROSSED_IDENTIFIER shift and go to state 54
+
+
+state 41
+
+    (36) underlined_text -> UNDERLINED_IDENTIFIER TEXT . UNDERLINED_IDENTIFIER
+
+    UNDERLINED_IDENTIFIER shift and go to state 55
+
+
+state 42
+
+    (37) underlined_text -> UNDERLINED_IDENTIFIER simple_style . UNDERLINED_IDENTIFIER
+
+    UNDERLINED_IDENTIFIER shift and go to state 56
+
+
+state 43
+
+    (18) unordered_list -> - TEXT EOL . unordered_list
+    (20) unordered_list -> - TEXT EOL .
+    (18) unordered_list -> . - TEXT EOL unordered_list
+    (19) unordered_list -> . - simple_style EOL unordered_list
+    (20) unordered_list -> . - TEXT EOL
+    (21) unordered_list -> . - simple_style EOL
+    (22) unordered_list -> . - TEXT
+    (23) unordered_list -> . - simple_style
+
+  ! shift/reduce conflict for - resolved as shift
+    TITLE           reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    TEXT            reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    ORDERED_LIST_INDEX reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    CODE_SAMPLE     reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    LOOP            reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    FIGURE          reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    BOLD_IDENTIFIER reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    ITALIC_IDENTIFIER reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    CROSSED_IDENTIFIER reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    $end            reduce using rule 20 (unordered_list -> - TEXT EOL .)
+    -               shift and go to state 11
+
+  ! -               [ reduce using rule 20 (unordered_list -> - TEXT EOL .) ]
+
+    unordered_list                 shift and go to state 57
+
+state 44
+
+    (19) unordered_list -> - simple_style EOL . unordered_list
+    (21) unordered_list -> - simple_style EOL .
+    (18) unordered_list -> . - TEXT EOL unordered_list
+    (19) unordered_list -> . - simple_style EOL unordered_list
+    (20) unordered_list -> . - TEXT EOL
+    (21) unordered_list -> . - simple_style EOL
+    (22) unordered_list -> . - TEXT
+    (23) unordered_list -> . - simple_style
+
+  ! shift/reduce conflict for - resolved as shift
+    TITLE           reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    TEXT            reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    ORDERED_LIST_INDEX reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    CODE_SAMPLE     reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    LOOP            reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    FIGURE          reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    BOLD_IDENTIFIER reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    ITALIC_IDENTIFIER reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    CROSSED_IDENTIFIER reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    $end            reduce using rule 21 (unordered_list -> - simple_style EOL .)
+    -               shift and go to state 11
+
+  ! -               [ reduce using rule 21 (unordered_list -> - simple_style EOL .) ]
+
+    unordered_list                 shift and go to state 58
+
+state 45
+
+    (24) ordered_list -> ORDERED_LIST_INDEX TEXT EOL . ordered_list
+    (26) ordered_list -> ORDERED_LIST_INDEX TEXT EOL .
+    (24) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL ordered_list
+    (25) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL ordered_list
+    (26) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL
+    (27) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL
+    (28) ordered_list -> . ORDERED_LIST_INDEX TEXT
+    (29) ordered_list -> . ORDERED_LIST_INDEX simple_style
+
+  ! shift/reduce conflict for ORDERED_LIST_INDEX resolved as shift
+    TITLE           reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    TEXT            reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    -               reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    CODE_SAMPLE     reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    LOOP            reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    FIGURE          reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    BOLD_IDENTIFIER reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    ITALIC_IDENTIFIER reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    CROSSED_IDENTIFIER reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    $end            reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .)
+    ORDERED_LIST_INDEX shift and go to state 12
+
+  ! ORDERED_LIST_INDEX [ reduce using rule 26 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL .) ]
+
+    ordered_list                   shift and go to state 59
+
+state 46
+
+    (25) ordered_list -> ORDERED_LIST_INDEX simple_style EOL . ordered_list
+    (27) ordered_list -> ORDERED_LIST_INDEX simple_style EOL .
+    (24) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL ordered_list
+    (25) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL ordered_list
+    (26) ordered_list -> . ORDERED_LIST_INDEX TEXT EOL
+    (27) ordered_list -> . ORDERED_LIST_INDEX simple_style EOL
+    (28) ordered_list -> . ORDERED_LIST_INDEX TEXT
+    (29) ordered_list -> . ORDERED_LIST_INDEX simple_style
+
+  ! shift/reduce conflict for ORDERED_LIST_INDEX resolved as shift
+    TITLE           reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    TEXT            reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    -               reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    CODE_SAMPLE     reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    LOOP            reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    FIGURE          reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    BOLD_IDENTIFIER reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    ITALIC_IDENTIFIER reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    CROSSED_IDENTIFIER reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    $end            reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .)
+    ORDERED_LIST_INDEX shift and go to state 12
+
+  ! ORDERED_LIST_INDEX [ reduce using rule 27 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL .) ]
+
+    ordered_list                   shift and go to state 60
+
+state 47
+
+    (40) loop -> LOOP [ TEXT . ] EOL { EOL TEXT EOL }
+
+    ]               shift and go to state 61
+
+
+state 48
+
+    (41) figure -> FIGURE ( TEXT . ) EOL
+    (42) figure -> FIGURE ( TEXT . )
+
+    )               shift and go to state 62
+
+
+state 49
+
+    (30) bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .
+
+    EOL             reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    TITLE           reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    TEXT            reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    -               reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    LOOP            reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    FIGURE          reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+    $end            reduce using rule 30 (bold_text -> BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER .)
+
+
+state 50
+
+    (31) bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .
+
+    EOL             reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    TITLE           reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    TEXT            reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    -               reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    LOOP            reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    FIGURE          reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+    $end            reduce using rule 31 (bold_text -> BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER .)
+
+
+state 51
+
+    (32) italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .
+
+    EOL             reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    TITLE           reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    TEXT            reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    -               reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    LOOP            reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    FIGURE          reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+    $end            reduce using rule 32 (italic_text -> ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER .)
+
+
+state 52
+
+    (33) italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .
+
+    EOL             reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    TITLE           reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    TEXT            reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    -               reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    LOOP            reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    FIGURE          reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+    $end            reduce using rule 33 (italic_text -> ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER .)
+
+
+state 53
+
+    (34) crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .
+
+    EOL             reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    TITLE           reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    TEXT            reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    -               reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    LOOP            reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    FIGURE          reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+    $end            reduce using rule 34 (crossed_text -> CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER .)
+
+
+state 54
+
+    (35) crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .
+
+    EOL             reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    TITLE           reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    TEXT            reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    -               reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    LOOP            reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    FIGURE          reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+    $end            reduce using rule 35 (crossed_text -> CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER .)
+
+
+state 55
+
+    (36) underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .
+
+    EOL             reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    TITLE           reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    TEXT            reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    -               reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    LOOP            reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    FIGURE          reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+    $end            reduce using rule 36 (underlined_text -> UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER .)
+
+
+state 56
+
+    (37) underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .
+
+    EOL             reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    TITLE           reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    TEXT            reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    -               reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    ORDERED_LIST_INDEX reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    CODE_SAMPLE     reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    LOOP            reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    FIGURE          reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    BOLD_IDENTIFIER reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    ITALIC_IDENTIFIER reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    CROSSED_IDENTIFIER reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    UNDERLINED_IDENTIFIER reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+    $end            reduce using rule 37 (underlined_text -> UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER .)
+
+
+state 57
+
+    (18) unordered_list -> - TEXT EOL unordered_list .
+
+    TITLE           reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    TEXT            reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    -               reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    CODE_SAMPLE     reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    LOOP            reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    FIGURE          reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    BOLD_IDENTIFIER reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+    $end            reduce using rule 18 (unordered_list -> - TEXT EOL unordered_list .)
+
+
+state 58
+
+    (19) unordered_list -> - simple_style EOL unordered_list .
+
+    TITLE           reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    TEXT            reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    -               reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    CODE_SAMPLE     reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    LOOP            reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    FIGURE          reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    BOLD_IDENTIFIER reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+    $end            reduce using rule 19 (unordered_list -> - simple_style EOL unordered_list .)
+
+
+state 59
+
+    (24) ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .
+
+    TITLE           reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    TEXT            reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    -               reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    CODE_SAMPLE     reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    LOOP            reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    FIGURE          reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    BOLD_IDENTIFIER reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+    $end            reduce using rule 24 (ordered_list -> ORDERED_LIST_INDEX TEXT EOL ordered_list .)
+
+
+state 60
+
+    (25) ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .
+
+    TITLE           reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    TEXT            reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    -               reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    ORDERED_LIST_INDEX reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    CODE_SAMPLE     reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    LOOP            reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    FIGURE          reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    BOLD_IDENTIFIER reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    ITALIC_IDENTIFIER reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    CROSSED_IDENTIFIER reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    UNDERLINED_IDENTIFIER reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+    $end            reduce using rule 25 (ordered_list -> ORDERED_LIST_INDEX simple_style EOL ordered_list .)
+
+
+state 61
+
+    (40) loop -> LOOP [ TEXT ] . EOL { EOL TEXT EOL }
+
+    EOL             shift and go to state 63
+
+
+state 62
+
+    (41) figure -> FIGURE ( TEXT ) . EOL
+    (42) figure -> FIGURE ( TEXT ) .
+
+    EOL             shift and go to state 64
+    TITLE           reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    TEXT            reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    -               reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    ORDERED_LIST_INDEX reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    CODE_SAMPLE     reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    LOOP            reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    FIGURE          reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    BOLD_IDENTIFIER reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    ITALIC_IDENTIFIER reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    CROSSED_IDENTIFIER reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    UNDERLINED_IDENTIFIER reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+    $end            reduce using rule 42 (figure -> FIGURE ( TEXT ) .)
+
+
+state 63
+
+    (40) loop -> LOOP [ TEXT ] EOL . { EOL TEXT EOL }
+
+    {               shift and go to state 65
+
+
+state 64
+
+    (41) figure -> FIGURE ( TEXT ) EOL .
+
+    TITLE           reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    TEXT            reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    -               reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    ORDERED_LIST_INDEX reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    CODE_SAMPLE     reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    LOOP            reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    FIGURE          reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    BOLD_IDENTIFIER reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    ITALIC_IDENTIFIER reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    CROSSED_IDENTIFIER reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    UNDERLINED_IDENTIFIER reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+    $end            reduce using rule 41 (figure -> FIGURE ( TEXT ) EOL .)
+
+
+state 65
+
+    (40) loop -> LOOP [ TEXT ] EOL { . EOL TEXT EOL }
+
+    EOL             shift and go to state 66
+
+
+state 66
+
+    (40) loop -> LOOP [ TEXT ] EOL { EOL . TEXT EOL }
+
+    TEXT            shift and go to state 67
+
+
+state 67
+
+    (40) loop -> LOOP [ TEXT ] EOL { EOL TEXT . EOL }
+
+    EOL             shift and go to state 68
+
+
+state 68
+
+    (40) loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL . }
+
+    }               shift and go to state 69
+
+
+state 69
+
+    (40) loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .
+
+    TITLE           reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    TEXT            reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    -               reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    ORDERED_LIST_INDEX reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    CODE_SAMPLE     reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    LOOP            reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    FIGURE          reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    BOLD_IDENTIFIER reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    ITALIC_IDENTIFIER reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    CROSSED_IDENTIFIER reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    UNDERLINED_IDENTIFIER reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+    $end            reduce using rule 40 (loop -> LOOP [ TEXT ] EOL { EOL TEXT EOL } .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for - in state 43 resolved as shift
+WARNING: shift/reduce conflict for - in state 44 resolved as shift
+WARNING: shift/reduce conflict for ORDERED_LIST_INDEX in state 45 resolved as shift
+WARNING: shift/reduce conflict for ORDERED_LIST_INDEX in state 46 resolved as shift

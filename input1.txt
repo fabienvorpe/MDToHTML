@@ -1,15 +1,1 @@
-*texte en italique*
-__simple underlined__
-~~simple crossed~~
-**simplE Bold**
-**~~bold crossed~~**
-~~**crossed and bold**~~
-1. *__**~~ouais~~**__*
-2. hehe
-- *__**~~ouais~~**__*
-- Nice
-- nice
-!boucle![fabien, guillaume]
-{
-	- number :index: coucou :element:
-}
+**~~barrébold~~ ~~bold~~**

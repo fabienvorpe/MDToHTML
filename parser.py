@@ -3,6 +3,8 @@ import ply.yacc as yacc
 from lex import tokens
 import AST
 from HTMLWriter import HTMLWriter
+import shutil
+
 
 
 def p_programme_statement(p):
@@ -19,12 +21,14 @@ def p_statement(p):
     | unordered_list
     | ordered_list
     | simple_style
-    | simple_style EOL
+    | simple_style EOL 
     | code_sample
     | TEXT EOL
     | TEXT
     | loop 
-    | loop EOL """
+    | loop EOL
+    | figure
+    | figure EOL """
     carriage_return = "<br/>" if len(p) > 2 else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -32,8 +36,13 @@ def p_simple_style(p):
     """ simple_style : bold_text
     | italic_text
     | crossed_text
-    | underlined_text """
-    p[0] = p[1]
+    | underlined_text
+    | simple_style TEXT """
+    print(p[1])
+    try:
+        p[0] = p[1] + p[2]
+    except:
+        p[0] = p[1]
 
 def p_unordered_list(p):
     """ unordered_list : '-' TEXT EOL unordered_list
@@ -92,6 +101,8 @@ def p_loop(p):
     """ loop : LOOP '[' TEXT ']' EOL '{' EOL loop_content '}' 
     | LOOP '[' TEXT ']' EOL '{' EOL loop_content EOL '}' """
 
+    print(p[8])
+
     elements = p[3].split(", ")
     ol_list_identifier = ":index:."
     ul_list_identifier = "<ul>"
@@ -107,24 +118,47 @@ def p_loop(p):
         line = p[8][8:] if p[8][:8] == ol_list_identifier else (p[8][4:-5] if p[8][:4] == ul_list_identifier else p[8])
         line = line.replace(":index:", str(i))
         line = line.replace(":element:", elements[i])
-        result += local_prefix + line + ("<br/>" if "ul" not in line and "ol" not in line and "li" not in line else "") + local_suffix
+        result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
 
     p[0] = result + global_suffix
 
 def p_loop_content(p):
     """ loop_content : TEXT
     | TITLE
-    | simple_style
+    | simple_style 
     | unordered_list """
     p[0] = p[1]
 
+def p_figure(p):
+    """ figure : FIGURE '(' TEXT ')' EOL
+    | FIGURE '(' TEXT ')' """
+
+    args = p[3].split(", ")
+
+    print(p[:])
+
+    args[0] = args[0][1:-1]
+    args[1] = args[1][1:-1]
+
+    result = "<div class='box'><div class='figure'>"
+    result += f"<img src='{args[0]}' alt='{args[1]}'/>"
+    result += f"<div class='legende'>{args[1]}</div>"
+    result += "</div></div>"
+
+    try :
+        shutil.copyfile(f"resources/{args[0]}", f"output/{args[0]}")
+    except:
+        print(f"File not found : resources/{args[0]}")    
+
+    p[0] = result
+
 def p_error(p):
+   
     if p:
         print ("Syntax error in line %d" % p.lineno)
         # yacc.errok()
     else:
         print ("Sytax error: unexpected end of file!")
-
 
 precedence = (
     #('left', 'ADD_OP'),

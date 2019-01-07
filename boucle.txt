@@ -1,4 +1,4 @@
 !boucle![fabien, guillaume]
 {
-	:index:. coucou :element:
+	- :index: coucou :element:
 }
