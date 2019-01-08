@@ -25,8 +25,8 @@ def p_statement(p):
     | loop EOL
     | figure
     | figure EOL 
-    | special_characters
-    | special_characters EOL
+    | special_character
+    | special_character EOL
     | TEXT EOL
     | TEXT
     | simple_eol
@@ -68,10 +68,12 @@ def p_underlined_text(p):
 
 def p_unordered_list(p):
     """ unordered_list : UNORDERED_LIST_IDENTIFIER TEXT EOL unordered_list
-    | UNORDERED_LIST_IDENTIFIER simple_style EOL unordered_list
     | UNORDERED_LIST_IDENTIFIER TEXT EOL
-    | UNORDERED_LIST_IDENTIFIER simple_style EOL
     | UNORDERED_LIST_IDENTIFIER TEXT
+    | UNORDERED_LIST_IDENTIFIER special_character EOL
+    | UNORDERED_LIST_IDENTIFIER special_character
+    | UNORDERED_LIST_IDENTIFIER simple_style EOL unordered_list
+    | UNORDERED_LIST_IDENTIFIER simple_style EOL
     | UNORDERED_LIST_IDENTIFIER simple_style """
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
@@ -80,10 +82,12 @@ def p_unordered_list(p):
 
 def p_ordered_list(p):
     """ ordered_list : ORDERED_LIST_INDEX TEXT EOL ordered_list
-    | ORDERED_LIST_INDEX simple_style EOL ordered_list
     | ORDERED_LIST_INDEX TEXT EOL
-    | ORDERED_LIST_INDEX simple_style EOL
     | ORDERED_LIST_INDEX TEXT
+    | ORDERED_LIST_INDEX special_character EOL
+    | ORDERED_LIST_INDEX special_character
+    | ORDERED_LIST_INDEX simple_style EOL ordered_list
+    | ORDERED_LIST_INDEX simple_style EOL
     | ORDERED_LIST_INDEX simple_style """
     try:
         p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
@@ -102,55 +106,62 @@ def p_code_sample(p):
 def p_loop(p):
     """ loop : LOOP EOL '{' EOL loop_content '}' 
     | LOOP EOL '{' EOL loop_content EOL '}' """
-    args = p[1][9:-1].split("\"")
-    elements = [args[1], args[3]]
+    try:
+        args = p[1][9:-1].split("\"")
+        elements = [args[1], args[3]]
 
-    ol_list_identifier = ":index:."
-    ul_list_identifier = "<ul>"
+        ol_list_identifier = ":index:."
+        ul_list_identifier = "<ul>"
 
-    global_prefix = "<ol>"  if p[5][:8]  == ol_list_identifier else ("<ul>"  if p[5][:4] == ul_list_identifier else "")
-    global_suffix = "</ol>" if p[5][:8]  == ol_list_identifier else ("</ul>" if p[5][:4] == ul_list_identifier else "")
-    local_prefix =  "<li>"  if p[5][:8]  == ol_list_identifier else ""
-    local_suffix =  "</li>" if p[5][:8]  == ol_list_identifier else ""
-    
-    result = global_prefix
+        global_prefix = "<ol>"  if p[5][:8]  == ol_list_identifier else ("<ul>"  if p[5][:4] == ul_list_identifier else "")
+        global_suffix = "</ol>" if p[5][:8]  == ol_list_identifier else ("</ul>" if p[5][:4] == ul_list_identifier else "")
+        local_prefix =  "<li>"  if p[5][:8]  == ol_list_identifier else ""
+        local_suffix =  "</li>" if p[5][:8]  == ol_list_identifier else ""
+        
+        result = global_prefix
 
-    for i in range(len(elements)):
-        line = p[5][8:] if p[5][:8] == ol_list_identifier else (p[5][4:-5] if p[5][:4] == ul_list_identifier else p[5])
-        line = line.replace(":index:", str(i))
-        line = line.replace(":element:", elements[i])
-        result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
+        for i in range(len(elements)):
+            line = p[5][8:] if p[5][:8] == ol_list_identifier else (p[5][4:-5] if p[5][:4] == ul_list_identifier else p[5])
+            line = line.replace(":index:", str(i))
+            line = line.replace(":element:", elements[i])
+            result += local_prefix + line + ("<br/>" if "<ul>" not in line and "<ol>" not in line and "<li>" not in line else "") + local_suffix
 
-    p[0] = result + global_suffix
+        p[0] = result + global_suffix
+    except:
+        p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}"
 
 def p_loop_content(p):
     """ loop_content : TEXT
     | TITLE
     | simple_style 
-    | unordered_list """
+    | unordered_list 
+    | special_character """
     p[0] = p[1]
 
 def p_figure(p):
     """ figure : FIGURE EOL
     | FIGURE """
-    args = p[1][9:-1].split("\"")
-    src = args[1]
-    alt = args[3]
+    try:
+        args = p[1][9:-1].split("\"")
+        src = args[1]
+        alt = args[3]
 
-    result = "<div class='box'><div class='figure'>"
-    result += f"<img src='{src}' alt='{alt}'/>"
-    result += f"<div class='legende'>{alt}</div>"
-    result += "</div></div>"
+        result = "<div class='box'><div class='figure'>"
+        result += f"<img src='{src}' alt='{alt}'/>"
+        result += f"<div class='legende'>{alt}</div>"
+        result += "</div></div>"
 
-    try :
-        shutil.copyfile(f"resources/{src}", f"output/{src}")
+        try :
+            shutil.copyfile(f"resources/{src}", f"output/{src}")
+        except:
+            print(f"File not found : resources/{src}")    
+
+        p[0] = result
     except:
-        print(f"File not found : resources/{src}")    
+        p[0] = p[1]
 
-    p[0] = result
-
-def p_special_characters(p):
-    """ special_characters : BOLD_IDENTIFIER
+def p_special_character(p):
+    """ special_character : BOLD_IDENTIFIER
     | BOLD_IDENTIFIER statement
     | ITALIC_IDENTIFIER
     | ITALIC_IDENTIFIER statement

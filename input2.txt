@@ -42,3 +42,14 @@ super ~ vaguelette
 
 dadsa ** dsa
 a * b ~~ c ~ d __ e _ f { g } h }} a
+!boucle!["."]
+{
+	truc
+}
+!figure!["avb.png", "salut"]
+!figure!["avb.png", salut]
+
+- **
+- dsa **
+- ** dsa
+- ds ** dsa
