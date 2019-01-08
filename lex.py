@@ -15,7 +15,7 @@ tokens = (
 	'FIGURE',
 )
 
-literals = '{}'
+literals = '{}_~'
 
 def t_TITLE(t):
 	r"\#+[ ].+"

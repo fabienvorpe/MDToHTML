@@ -25,8 +25,11 @@ def p_statement(p):
     | loop EOL
     | figure
     | figure EOL 
+    | special_characters
+    | special_characters EOL
     | TEXT EOL
     | TEXT
+    | simple_eol
     | stat_error
     | stat_error EOL """
     carriage_return = "<br/>" if len(p) > 2 else ""
@@ -70,7 +73,6 @@ def p_unordered_list(p):
     | UNORDERED_LIST_IDENTIFIER simple_style EOL
     | UNORDERED_LIST_IDENTIFIER TEXT
     | UNORDERED_LIST_IDENTIFIER simple_style """
-    print("LISTE --- ", p[:])
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -146,6 +148,32 @@ def p_figure(p):
         print(f"File not found : resources/{src}")    
 
     p[0] = result
+
+def p_special_characters(p):
+    """ special_characters : BOLD_IDENTIFIER
+    | BOLD_IDENTIFIER statement
+    | ITALIC_IDENTIFIER
+    | ITALIC_IDENTIFIER statement
+    | CROSSED_IDENTIFIER
+    | CROSSED_IDENTIFIER statement
+    | UNDERLINED_IDENTIFIER
+    | UNDERLINED_IDENTIFIER statement
+    | '{'
+    | '{' statement
+    | '}'
+    | '}' statement
+    | '_'
+    | '_' statement
+    | '~'
+    | '~' statement """
+    try:
+        p[0] = f"{p[1]} {repr(p[2])[1:-1]}"
+    except:
+        p[0] = p[1]
+
+def p_simple_eol(p):
+    """ simple_eol : EOL """
+    p[0] = "<br/>"
 
 def p_stat_error(p):
     """ stat_error : error """

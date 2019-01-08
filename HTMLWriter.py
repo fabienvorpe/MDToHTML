@@ -31,4 +31,4 @@ class HTMLWriter:
         """
         Converts and returns an AST.ProgramNode's tree in a string.
         """
-        return " ".join([repr(c)[1:-1] for c in result.children])
+        return " ".join([repr(c)[1:-1] for c in result.children]) if result is not None else ""
