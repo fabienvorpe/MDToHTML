@@ -4,6 +4,7 @@ tokens = (
 	'TITLE',
 	'TEXT',
 	'EOL',
+	'UNORDERED_LIST_IDENTIFIER',
 	'ORDERED_LIST_INDEX',
 	'CODE_SAMPLE',
 	'BOLD_IDENTIFIER',
@@ -14,7 +15,7 @@ tokens = (
 	'FIGURE',
 )
 
-literals = '-{}'
+literals = '{}'
 
 def t_TITLE(t):
 	r"\#+[ ].+"
@@ -23,6 +24,10 @@ def t_TITLE(t):
 	if title_level > 6:
 		title_level = 6
 	t.value = f"<h{title_level}>{t.value[nb_sharps+1:]}</h{title_level}>"
+	return t
+
+def t_UNORDERED_LIST_IDENTIFIER(t):
+	r"(- )"
 	return t
 
 def t_ORDERED_LIST_INDEX(t):
@@ -63,7 +68,7 @@ def t_FIGURE(t):
 	return t
 
 def t_TEXT(t):
-	r"[^(\n)(\*\*)(\*)(\~\~)(\_\_)(\{)(\})(\-)]+"
+	r"[^(\n)(\*\*)(\*)(\~\~)(\_\_)(\{)(\})]+"
 	return t
 
 t_ignore  = ' \t'

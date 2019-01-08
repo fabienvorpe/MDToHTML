@@ -9,6 +9,7 @@
 *texte en italique*
 **simple bold**
 hum **bold text** adsa ~~trop stylé~~
+ok - cool
 **~~bold and crossed~~**
 __texte souligné__
 ```code sample - one line```

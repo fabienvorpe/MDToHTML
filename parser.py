@@ -64,12 +64,13 @@ def p_underlined_text(p):
     p[0] = f"<span class='underlined'>{p[2]}</span>"
 
 def p_unordered_list(p):
-    """ unordered_list : '-' TEXT EOL unordered_list
-    | '-' simple_style EOL unordered_list
-    | '-' TEXT EOL
-    | '-' simple_style EOL
-    | '-' TEXT
-    | '-' simple_style """
+    """ unordered_list : UNORDERED_LIST_IDENTIFIER TEXT EOL unordered_list
+    | UNORDERED_LIST_IDENTIFIER simple_style EOL unordered_list
+    | UNORDERED_LIST_IDENTIFIER TEXT EOL
+    | UNORDERED_LIST_IDENTIFIER simple_style EOL
+    | UNORDERED_LIST_IDENTIFIER TEXT
+    | UNORDERED_LIST_IDENTIFIER simple_style """
+    print("LISTE --- ", p[:])
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
