@@ -14,24 +14,17 @@ def p_programme_statement(p):
         p[0] = AST.ProgramNode(p[1])
 
 def p_statement(p):
-    """ statement : TITLE EOL
-    | TITLE
+    """ statement : TITLE
     | unordered_list
     | ordered_list
     | simple_style
-    | simple_style EOL 
     | code_sample
     | loop 
-    | loop EOL
     | figure
-    | figure EOL 
     | special_character
-    | special_character EOL
-    | TEXT EOL
     | TEXT
     | simple_eol
-    | stat_error
-    | stat_error EOL """
+    | stat_error """
     carriage_return = "<br/>" if len(p) > 2 and not ("<h" in p[1] and ">" in p[1] and "</h" in p[1]) else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -85,8 +78,7 @@ def p_complex_text(p):
 
 def p_unordered_list(p):
     """ unordered_list : UNORDERED_LIST_IDENTIFIER complex_text EOL unordered_list
-    | UNORDERED_LIST_IDENTIFIER complex_text EOL
-    | UNORDERED_LIST_IDENTIFIER complex_text """
+    | UNORDERED_LIST_IDENTIFIER complex_text EOL """
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -94,16 +86,14 @@ def p_unordered_list(p):
 
 def p_ordered_list(p):
     """ ordered_list : ORDERED_LIST_INDEX complex_text EOL ordered_list
-    | ORDERED_LIST_INDEX complex_text EOL
-    | ORDERED_LIST_INDEX complex_text """
+    | ORDERED_LIST_INDEX complex_text EOL """
     try:
         p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
     except:
         p[0] = f"<ol><li>{p[2]}</li></ol>"
 
 def p_code_sample(p):
-    """ code_sample : CODE_SAMPLE 
-    | CODE_SAMPLE EOL"""
+    """ code_sample : CODE_SAMPLE """
     code = p[1][1:] if p[1][:1] == "\n" else p[1]
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
@@ -145,8 +135,7 @@ def p_loop_content(p):
     p[0] = p[1]
 
 def p_figure(p):
-    """ figure : FIGURE EOL
-    | FIGURE """
+    """ figure : FIGURE """
     try:
         args = p[1][9:-1].split("\"")
         src = args[1]
