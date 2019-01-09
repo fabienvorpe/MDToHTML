@@ -1,3 +1,5 @@
+**juste gras ~~gras tracé~~ gras __souligné gras__**
+
 ################### h2
 - yeah
 - ok
@@ -53,8 +55,19 @@ a * b ~~ c ~ d __ e _ f { g } h }} a
 }
 !figure!["avb.png", "salut"]
 !figure!["avb.png", salut]
-
 - **
-- dsa **
-- ** dsa
-- ds ** dsa
+- ah
+- ok __
+- ~~ perfect
+- sup } er
+- **damn**
+
+- __**UN**__
+- __DEUX__
+- **TROIS**
+
+1. hm
+2. __ yea ok ** lel ~~tracé~~
+3. **__ok__**
+
+**~~barrébold~~ ~~barrébold~~**

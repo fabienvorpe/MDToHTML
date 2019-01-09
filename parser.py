@@ -32,8 +32,16 @@ def p_statement(p):
     | simple_eol
     | stat_error
     | stat_error EOL """
+    print(p[:])
     carriage_return = "<br/>" if len(p) > 2 and not ("<h" in p[1] and ">" in p[1] and "</h" in p[1]) else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
+
+def p_inline_element(p):
+    """ inline_element : simple_style
+    | special_character
+    | TEXT
+    | stat_error """
+    p[0] = p[1]
 
 def p_simple_style(p):
     """ simple_style : bold_text
@@ -66,29 +74,29 @@ def p_underlined_text(p):
     | UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER"""
     p[0] = f"<span class='underlined'>{p[2]}</span>"
 
+def p_complex_text(p):
+    """ complex_text : simple_style
+    | TEXT
+    | special_character
+    | complex_text complex_text """
+    try:
+        p[0] = p[1].split("<br/>")[0] + p[2].split("<br/>")[0]
+    except:
+        p[0] = p[1].split("<br/>")[0]
+
 def p_unordered_list(p):
-    """ unordered_list : UNORDERED_LIST_IDENTIFIER TEXT EOL unordered_list
-    | UNORDERED_LIST_IDENTIFIER TEXT EOL
-    | UNORDERED_LIST_IDENTIFIER TEXT
-    | UNORDERED_LIST_IDENTIFIER special_character EOL
-    | UNORDERED_LIST_IDENTIFIER special_character
-    | UNORDERED_LIST_IDENTIFIER simple_style EOL unordered_list
-    | UNORDERED_LIST_IDENTIFIER simple_style EOL
-    | UNORDERED_LIST_IDENTIFIER simple_style """
+    """ unordered_list : UNORDERED_LIST_IDENTIFIER complex_text EOL unordered_list
+    | UNORDERED_LIST_IDENTIFIER complex_text EOL
+    | UNORDERED_LIST_IDENTIFIER complex_text """
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
     except:
         p[0] = f"<ul><li>{p[2]}</li></ul>"
 
 def p_ordered_list(p):
-    """ ordered_list : ORDERED_LIST_INDEX TEXT EOL ordered_list
-    | ORDERED_LIST_INDEX TEXT EOL
-    | ORDERED_LIST_INDEX TEXT
-    | ORDERED_LIST_INDEX special_character EOL
-    | ORDERED_LIST_INDEX special_character
-    | ORDERED_LIST_INDEX simple_style EOL ordered_list
-    | ORDERED_LIST_INDEX simple_style EOL
-    | ORDERED_LIST_INDEX simple_style """
+    """ ordered_list : ORDERED_LIST_INDEX complex_text EOL ordered_list
+    | ORDERED_LIST_INDEX complex_text EOL
+    | ORDERED_LIST_INDEX complex_text """
     try:
         p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
     except:
@@ -161,21 +169,22 @@ def p_figure(p):
 
 def p_special_character(p):
     """ special_character : BOLD_IDENTIFIER
-    | BOLD_IDENTIFIER statement
+    | BOLD_IDENTIFIER inline_element
     | ITALIC_IDENTIFIER
-    | ITALIC_IDENTIFIER statement
+    | ITALIC_IDENTIFIER inline_element
     | CROSSED_IDENTIFIER
-    | CROSSED_IDENTIFIER statement
+    | CROSSED_IDENTIFIER inline_element
     | UNDERLINED_IDENTIFIER
-    | UNDERLINED_IDENTIFIER statement
+    | UNDERLINED_IDENTIFIER inline_element
     | '{'
-    | '{' statement
+    | '{' inline_element
     | '}'
-    | '}' statement
+    | '}' inline_element
     | '_'
-    | '_' statement
+    | '_' inline_element
     | '~'
-    | '~' statement """
+    | '~' inline_element """
+    print("SPECIAL - ", p[1:])
     try:
         p[0] = f"{p[1]} {repr(p[2])[1:-1]}"
     except:
