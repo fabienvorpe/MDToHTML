@@ -32,7 +32,6 @@ def p_statement(p):
     | simple_eol
     | stat_error
     | stat_error EOL """
-    print(p[:])
     carriage_return = "<br/>" if len(p) > 2 and not ("<h" in p[1] and ">" in p[1] and "</h" in p[1]) else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
@@ -184,7 +183,6 @@ def p_special_character(p):
     | '_' inline_element
     | '~'
     | '~' inline_element """
-    print("SPECIAL - ", p[1:])
     try:
         p[0] = f"{p[1]} {repr(p[2])[1:-1]}"
     except:

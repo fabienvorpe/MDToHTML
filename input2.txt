@@ -1,4 +1,8 @@
 **juste gras ~~gras tracé~~ gras __souligné gras__**
+**hum__**
+**__hum**
+**__souligné__ gras**
+**gras __souligné__**
 
 ################### h2
 - yeah
