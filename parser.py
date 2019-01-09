@@ -32,7 +32,7 @@ def p_statement(p):
     | simple_eol
     | stat_error
     | stat_error EOL """
-    carriage_return = "<br/>" if len(p) > 2 else ""
+    carriage_return = "<br/>" if len(p) > 2 and not ("<h" in p[1] and ">" in p[1] and "</h" in p[1]) else ""
     p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
 
 def p_simple_style(p):
@@ -97,11 +97,10 @@ def p_ordered_list(p):
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 
     | CODE_SAMPLE EOL"""
-    carriage_return = "<br/>" if len(p) > 2 else ""
     code = p[1][1:] if p[1][:1] == "\n" else p[1]
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
-    p[0] = f"<div class='code'>{code}</div>{carriage_return}"
+    p[0] = f"<div class='code'>{code}</div>"
 
 def p_loop(p):
     """ loop : LOOP EOL '{' EOL loop_content '}' 

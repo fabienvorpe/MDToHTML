@@ -15,6 +15,7 @@ __texte souligné__
 ```code sample - one line```
 ```code sample -
 two lines```
+
 ```
 code sample
 lots of lines
@@ -34,6 +35,10 @@ lots of lines
 !boucle!["fabien", "guillaume"]
 {
 	- **~~:index:~~ coucou** :element:
+}
+!boucle!["oui", "non"]
+{
+	:index: :element:
 }
 
 
