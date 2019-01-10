@@ -4,36 +4,46 @@ from lex import tokens
 import AST
 from HTMLWriter import HTMLWriter
 import shutil
+import re
 
 def p_programme_statement(p):
     """ programme : statement 
     | statement programme """
     try:
-        p[0] = AST.ProgramNode([p[1]]+p[2].children)
+        p[0] = AST.ProgramNode([p[1]] + p[2].children)
     except:
         p[0] = AST.ProgramNode(p[1])
 
 def p_statement(p):
     """ statement : TITLE
+    | TITLE EOL
+    | simple_text
     | unordered_list
+    | unordered_list EOL
     | ordered_list
-    | simple_style
+    | ordered_list EOL
     | code_sample
-    | loop 
+    | code_sample EOL
+    | loop
+    | loop EOL
     | figure
-    | special_character
-    | TEXT
-    | simple_eol
-    | stat_error """
-    carriage_return = "<br/>" if len(p) > 2 and not ("<h" in p[1] and ">" in p[1] and "</h" in p[1]) else ""
-    p[0] = AST.TokenNode(f"{p[1]}{carriage_return}")
+    | figure EOL
+    | simple_eol """
+    p[0] = AST.TokenNode(f"{p[1]}")
 
-def p_inline_element(p):
-    """ inline_element : simple_style
-    | special_character
+def p_simple_text(p):
+    """ simple_text : simple_style
     | TEXT
-    | stat_error """
+    | special_character """
     p[0] = p[1]
+
+def p_complex_text(p):
+    """ complex_text : simple_text
+    | complex_text complex_text """
+    try:
+        p[0] = p[1] + p[2]
+    except:
+        p[0] = p[1]
 
 def p_simple_style(p):
     """ simple_style : bold_text
@@ -65,16 +75,6 @@ def p_underlined_text(p):
     """ underlined_text : UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
     | UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER"""
     p[0] = f"<span class='underlined'>{p[2]}</span>"
-
-def p_complex_text(p):
-    """ complex_text : simple_style
-    | TEXT
-    | special_character
-    | complex_text complex_text """
-    try:
-        p[0] = p[1].split("<br/>")[0] + p[2].split("<br/>")[0]
-    except:
-        p[0] = p[1].split("<br/>")[0]
 
 def p_unordered_list(p):
     """ unordered_list : UNORDERED_LIST_IDENTIFIER complex_text EOL unordered_list
@@ -147,7 +147,7 @@ def p_figure(p):
         result += "</div></div>"
 
         try :
-            shutil.copyfile(f"resources/{src}", f"output/{src}")
+            shutil.copyfile(f"resources/{src}", f"generated/{src}")
         except:
             print(f"File not found : resources/{src}")    
 
@@ -157,21 +157,21 @@ def p_figure(p):
 
 def p_special_character(p):
     """ special_character : BOLD_IDENTIFIER
-    | BOLD_IDENTIFIER inline_element
+    | BOLD_IDENTIFIER simple_text
     | ITALIC_IDENTIFIER
-    | ITALIC_IDENTIFIER inline_element
+    | ITALIC_IDENTIFIER simple_text
     | CROSSED_IDENTIFIER
-    | CROSSED_IDENTIFIER inline_element
+    | CROSSED_IDENTIFIER simple_text
     | UNDERLINED_IDENTIFIER
-    | UNDERLINED_IDENTIFIER inline_element
+    | UNDERLINED_IDENTIFIER simple_text
     | '{'
-    | '{' inline_element
+    | '{' simple_text
     | '}'
-    | '}' inline_element
+    | '}' simple_text
     | '_'
-    | '_' inline_element
+    | '_' simple_text
     | '~'
-    | '~' inline_element """
+    | '~' simple_text """
     try:
         p[0] = f"{p[1]} {repr(p[2])[1:-1]}"
     except:
@@ -181,11 +181,6 @@ def p_simple_eol(p):
     """ simple_eol : EOL """
     p[0] = "<br/>"
 
-def p_stat_error(p):
-    """ stat_error : error """
-    print("Stat error")
-    p[0] = ""
-
 def p_error(p):
     print("Error", p)
     if p is not None:
@@ -194,7 +189,7 @@ def p_error(p):
 def parse(program):
     return yacc.parse(program)
 
-parser = yacc.yacc(outputdir='generated')
+parser = yacc.yacc(outputdir="generated")
 
 if __name__ == "__main__":
     import sys 
@@ -202,6 +197,6 @@ if __name__ == "__main__":
     prog = open(sys.argv[1]).read()
     result = yacc.parse(prog)
 
-    print("result : ", result)
+    # print("result : ", result)
 
-    HTMLWriter().writeResult("title - output file", "fr", result)
+    HTMLWriter().writeResult(sys.argv[1], "fr", result)

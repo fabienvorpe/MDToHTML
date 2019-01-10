@@ -7,7 +7,7 @@ Provides methods to save the AST.ProgramNode tree in HTML.
 class HTMLWriter:
     def __init__(self):
         self.file_structure = "resources/file_structure.html"
-        self.output_file = "output/"
+        self.output_file = "generated/"
 
     def writeResult(self, title, lang, result):
         """
