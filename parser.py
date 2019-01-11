@@ -14,21 +14,25 @@ def p_programme_statement(p):
         p[0] = AST.ProgramNode(p[1])
 
 def p_statement(p):
-    """ statement : TITLE
-    | TITLE EOL
+    """ statement : title
     | simple_text
     | unordered_list
-    | unordered_list EOL
     | ordered_list
-    | ordered_list EOL
     | code_sample
-    | code_sample EOL
     | loop
     | loop EOL
     | figure
-    | figure EOL
     | simple_eol """
     p[0] = AST.TokenNode(f"{p[1]}")
+
+def p_title(p):
+    """ title : TITLE 
+    | TITLE EOL """
+    level = len(p[1].split()[0])
+    nb_sharps = level
+    if level > 6:
+        level = 6
+    p[0] = f"<h{level}>{p[1][nb_sharps+1:]}</h{level}>"
 
 def p_simple_text(p):
     """ simple_text : simple_style
@@ -77,6 +81,7 @@ def p_underlined_text(p):
 
 def p_unordered_list(p):
     """ unordered_list : UNORDERED_LIST_IDENTIFIER complex_text EOL unordered_list
+    | UNORDERED_LIST_IDENTIFIER complex_text
     | UNORDERED_LIST_IDENTIFIER complex_text EOL """
     try:
         p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
@@ -85,6 +90,7 @@ def p_unordered_list(p):
 
 def p_ordered_list(p):
     """ ordered_list : ORDERED_LIST_INDEX complex_text EOL ordered_list
+    | ORDERED_LIST_INDEX complex_text 
     | ORDERED_LIST_INDEX complex_text EOL """
     try:
         p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
@@ -92,10 +98,12 @@ def p_ordered_list(p):
         p[0] = f"<ol><li>{p[2]}</li></ol>"
 
 def p_code_sample(p):
-    """ code_sample : CODE_SAMPLE """
+    """ code_sample : CODE_SAMPLE 
+    | CODE_SAMPLE EOL """
     code = p[1][1:] if p[1][:1] == "\n" else p[1]
     code = code[:-1] if code[-1:] == "\n" else code
     code = code.replace("\n", "<br/>")
+    code = code.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
     p[0] = f"<div class='code'>{code}</div>"
 
 def p_loop(p):
@@ -103,7 +111,7 @@ def p_loop(p):
     | LOOP EOL '{' EOL loop_content EOL '}' """
     try:
         args = p[1][9:-1].split("\"")
-        elements = [args[1], args[3]]
+        elements = [args[i] for i in range(len(args)) if i%2==1]
 
         ol_list_identifier = ":index:."
         ul_list_identifier = "<ul>"
@@ -126,13 +134,14 @@ def p_loop(p):
         p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}"
 
 def p_loop_content(p):
-    """ loop_content : TITLE
+    """ loop_content : title
     | simple_text
     | unordered_list """
     p[0] = p[1]
 
 def p_figure(p):
-    """ figure : FIGURE """
+    """ figure : FIGURE 
+    | FIGURE EOL """
     try:
         args = p[1][9:-1].split("\"")
         src = args[1]
@@ -179,9 +188,10 @@ def p_simple_eol(p):
     p[0] = "<br/>"
 
 def p_error(p):
-    print("An error occured: ", p)
-    if p is not None:
-        parser.errok()
+    if p:
+        print("Syntax error at '%s'" % p.value)
+    else:
+        print("Error at EOF")
 
 def parse(program):
     return yacc.parse(program)
@@ -192,6 +202,7 @@ if __name__ == "__main__":
     import sys 
     	
     prog = open(sys.argv[1]).read()
+    print(prog)
     result = yacc.parse(prog)
 
     HTMLWriter().writeResult(sys.argv[1], "fr", result)

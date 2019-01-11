@@ -42,7 +42,7 @@ lots of lines
 {
 	- **~~:index:~~ coucou** :element:
 }
-!boucle!["oui", "non"]
+!boucle!["oui", "non","ras-le-bol"]
 {
 	:index: :element:
 }

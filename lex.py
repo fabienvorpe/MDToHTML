@@ -19,11 +19,6 @@ literals = '{}_~'
 
 def t_TITLE(t):
 	r"\#+[ ].+"
-	title_level = len(t.value.split()[0])
-	nb_sharps = title_level
-	if title_level > 6:
-		title_level = 6
-	t.value = f"<h{title_level}>{t.value[nb_sharps+1:]}</h{title_level}>"
 	return t
 
 def t_UNORDERED_LIST_IDENTIFIER(t):
@@ -51,7 +46,7 @@ def t_UNDERLINED_IDENTIFIER(t):
 	return t
 
 def t_CODE_SAMPLE(t):
-	r"```[\s\S][^(```)]+```"
+	r"```[\s\S][^```]+```"
 	t.value = t.value[3:-3]
 	return t
 
