@@ -4,7 +4,6 @@ from lex import tokens
 import AST
 from HTMLWriter import HTMLWriter
 import shutil
-import re
 
 def p_programme_statement(p):
     """ programme : statement 
@@ -127,11 +126,9 @@ def p_loop(p):
         p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}"
 
 def p_loop_content(p):
-    """ loop_content : TEXT
-    | TITLE
-    | simple_style 
-    | unordered_list 
-    | special_character """
+    """ loop_content : TITLE
+    | simple_text
+    | unordered_list """
     p[0] = p[1]
 
 def p_figure(p):
@@ -142,12 +139,12 @@ def p_figure(p):
         alt = args[3]
 
         result = "<div class='box'><div class='figure'>"
-        result += f"<img src='{src}' alt='{alt}'/>"
+        result += f"<img src='img/{src}' alt='{alt}'/>"
         result += f"<div class='legende'>{alt}</div>"
         result += "</div></div>"
 
         try :
-            shutil.copyfile(f"resources/{src}", f"generated/{src}")
+            shutil.copyfile(f"resources/{src}", f"generated/img/{src}")
         except:
             print(f"File not found : resources/{src}")    
 
@@ -182,7 +179,7 @@ def p_simple_eol(p):
     p[0] = "<br/>"
 
 def p_error(p):
-    print("Error", p)
+    print("An error occured: ", p)
     if p is not None:
         parser.errok()
 
@@ -196,7 +193,5 @@ if __name__ == "__main__":
     	
     prog = open(sys.argv[1]).read()
     result = yacc.parse(prog)
-
-    # print("result : ", result)
 
     HTMLWriter().writeResult(sys.argv[1], "fr", result)

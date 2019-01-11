@@ -74,6 +74,7 @@ def t_TEXT(t):
 t_ignore  = ' \t'
 
 def t_error(t):
+	print("Unknown token: ", t)
 	t.lexer.skip(1)
 
 lex.lex()
