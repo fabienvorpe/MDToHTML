@@ -9,7 +9,7 @@ def p_programme_statement(p):
     """ programme : statement 
     | statement programme """
     try:
-        p[0] = AST.ProgramNode([p[1]] + p[2].children)
+        p[0] = AST.ProgramNode([p[1]] + p[2].children) # handle recursivity
     except:
         p[0] = AST.ProgramNode(p[1])
 
@@ -28,9 +28,9 @@ def p_statement(p):
 def p_title(p):
     """ title : TITLE 
     | TITLE EOL """
-    level = len(p[1].split()[0])
+    level = len(p[1].split()[0]) # get '#' suite and count to get title level
     nb_sharps = level
-    if level > 6:
+    if level > 6: # maximum title level in HTML is 6
         level = 6
     p[0] = f"<h{level}>{p[1][nb_sharps+1:]}</h{level}>"
 
@@ -44,7 +44,7 @@ def p_complex_text(p):
     """ complex_text : simple_text
     | complex_text complex_text """
     try:
-        p[0] = p[1] + p[2]
+        p[0] = p[1] + p[2] # handle recursivity
     except:
         p[0] = p[1]
 
@@ -55,7 +55,7 @@ def p_simple_style(p):
     | underlined_text
     | simple_style TEXT """
     try:
-        p[0] = p[1] + " " + p[2]
+        p[0] = p[1] + " " + p[2] # handle recursivity - separate elements by a space
     except:
         p[0] = p[1]
 
@@ -84,35 +84,41 @@ def p_unordered_list(p):
     | UNORDERED_LIST_IDENTIFIER complex_text
     | UNORDERED_LIST_IDENTIFIER complex_text EOL """
     try:
-        p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}"
+        p[0] = f"<ul><li>{p[2]}</li>{p[4][4:]}" # recursivity - more list elements following
     except:
-        p[0] = f"<ul><li>{p[2]}</li></ul>"
+        p[0] = f"<ul><li>{p[2]}</li></ul>" # last list element
 
 def p_ordered_list(p):
     """ ordered_list : ORDERED_LIST_INDEX complex_text EOL ordered_list
     | ORDERED_LIST_INDEX complex_text 
     | ORDERED_LIST_INDEX complex_text EOL """
     try:
-        p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}"
+        p[0] = f"<ol><li>{p[2]}</li>{p[4][4:]}" # recursivity - more list elements following
     except:
-        p[0] = f"<ol><li>{p[2]}</li></ol>"
+        p[0] = f"<ol><li>{p[2]}</li></ol>" # last list element
 
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 
     | CODE_SAMPLE EOL """
+    # identify code sample's content
     code = p[1][1:] if p[1][:1] == "\n" else p[1]
     code = code[:-1] if code[-1:] == "\n" else code
+
+    # replace special character by their HTML equivalent
     code = code.replace("\n", "<br/>")
     code = code.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+
     p[0] = f"<div class='code'>{code}</div>"
 
 def p_loop(p):
     """ loop : LOOP EOL '{' EOL loop_content '}' 
     | LOOP EOL '{' EOL loop_content EOL '}' """
     try:
+        # identify loop's arguments
         args = p[1][9:-1].split("\"")
         elements = [args[i] for i in range(len(args)) if i%2==1]
 
+        # surround by lists HTML tags if the loop's containing lists
         ol_list_identifier = ":index:."
         ul_list_identifier = "<ul>"
 
@@ -123,6 +129,7 @@ def p_loop(p):
         
         result = global_prefix
 
+        # repeat loop's content
         for i in range(len(elements)):
             line = p[5][8:] if p[5][:8] == ol_list_identifier else (p[5][4:-5] if p[5][:4] == ul_list_identifier else p[5])
             line = line.replace(":index:", str(i))
@@ -131,7 +138,7 @@ def p_loop(p):
 
         p[0] = result + global_suffix
     except:
-        p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}"
+        p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}" # return raw text (loop's not interpreted)
 
 def p_loop_content(p):
     """ loop_content : title
@@ -143,23 +150,25 @@ def p_figure(p):
     """ figure : FIGURE 
     | FIGURE EOL """
     try:
+        # identify figure's arguments
         args = p[1][9:-1].split("\"")
         src = args[1]
         alt = args[3]
 
+        # create image's HTML tags
         result = "<div class='box'><div class='figure'>"
         result += f"<img src='img/{src}' alt='{alt}'/>"
         result += f"<div class='legende'>{alt}</div>"
         result += "</div></div>"
 
         try :
-            shutil.copyfile(f"resources/{src}", f"generated/img/{src}")
+            shutil.copyfile(f"resources/{src}", f"generated/img/{src}") # copy image to the output folder
         except:
             print(f"File not found : resources/{src}")    
 
         p[0] = result
     except:
-        p[0] = p[1]
+        p[0] = p[1] # return raw text (figure's not interpreted)
 
 def p_special_character(p):
     """ special_character : BOLD_IDENTIFIER
@@ -179,7 +188,7 @@ def p_special_character(p):
     | '~'
     | '~' simple_text """
     try:
-        p[0] = f"{p[1]} {repr(p[2])[1:-1]}"
+        p[0] = f"{p[1]} {repr(p[2])[1:-1]}" # handle recursivity
     except:
         p[0] = p[1]
 
