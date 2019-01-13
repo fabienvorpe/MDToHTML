@@ -1,7 +1,0 @@
-**~~barré bold~~ only bold**
-**~~barré bold~~only bold**
-$$$$$$$$$ __italique__ $
-**ok**
-
-ahsdkjada$asjkdaskdas
-

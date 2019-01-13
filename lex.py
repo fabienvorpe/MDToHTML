@@ -1,5 +1,6 @@
 import ply.lex as lex
 
+# define tokens list
 tokens = (
 	'TITLE',
 	'TEXT',
@@ -15,8 +16,10 @@ tokens = (
 	'FIGURE',
 )
 
+# define literals
 literals = '{}_~'
 
+# define each token's regex
 def t_TITLE(t):
 	r"\#+[ ].+"
 	return t
@@ -66,8 +69,9 @@ def t_TEXT(t):
 	r"[^(\n)(\*\*)(\*)(\~\~)(\_\_)(\{)(\})]+"
 	return t
 
-t_ignore  = ' \t'
+t_ignore  = ' \t' # ignore tabs (EOL are handled like other tokens)
 
+# handle errors
 def t_error(t):
 	print("Unknown token: ", t)
 	t.lexer.skip(1)

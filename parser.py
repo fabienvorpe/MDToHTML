@@ -5,6 +5,7 @@ import AST
 from HTMLWriter import HTMLWriter
 import shutil
 
+# define programm (tree's root)
 def p_programme_statement(p):
     """ programme : statement 
     | statement programme """
@@ -13,6 +14,7 @@ def p_programme_statement(p):
     except:
         p[0] = AST.ProgramNode(p[1])
 
+# define statement (possible elements from root)
 def p_statement(p):
     """ statement : title
     | simple_text
@@ -25,6 +27,7 @@ def p_statement(p):
     | simple_eol """
     p[0] = AST.TokenNode(f"{p[1]}")
 
+# define title
 def p_title(p):
     """ title : TITLE 
     | TITLE EOL """
@@ -34,12 +37,14 @@ def p_title(p):
         level = 6
     p[0] = f"<h{level}>{p[1][nb_sharps+1:]}</h{level}>"
 
+# define text (styles and uninterpreted characters)
 def p_simple_text(p):
     """ simple_text : simple_style
     | TEXT
     | special_character """
     p[0] = p[1]
 
+# define recursive text
 def p_complex_text(p):
     """ complex_text : simple_text
     | complex_text complex_text """
@@ -48,6 +53,7 @@ def p_complex_text(p):
     except:
         p[0] = p[1]
 
+# define styles
 def p_simple_style(p):
     """ simple_style : bold_text
     | italic_text
@@ -59,26 +65,31 @@ def p_simple_style(p):
     except:
         p[0] = p[1]
 
+# define bold style
 def p_bold_text(p):
     """ bold_text : BOLD_IDENTIFIER simple_style BOLD_IDENTIFIER
     | BOLD_IDENTIFIER TEXT BOLD_IDENTIFIER"""
     p[0] = f"<span class='bold'>{p[2]}</span>"
 
+# define italic style
 def p_italic_text(p):
     """ italic_text : ITALIC_IDENTIFIER simple_style ITALIC_IDENTIFIER
     | ITALIC_IDENTIFIER TEXT ITALIC_IDENTIFIER"""
     p[0] = f"<span class='italic'>{p[2]}</span>"
 
+# define crossed style
 def p_crossed_text(p):
     """ crossed_text : CROSSED_IDENTIFIER simple_style CROSSED_IDENTIFIER
     | CROSSED_IDENTIFIER TEXT CROSSED_IDENTIFIER"""
     p[0] = f"<span class='crossed'>{p[2]}</span>"
 
+# define underlined text
 def p_underlined_text(p):
     """ underlined_text : UNDERLINED_IDENTIFIER simple_style UNDERLINED_IDENTIFIER
     | UNDERLINED_IDENTIFIER TEXT UNDERLINED_IDENTIFIER"""
     p[0] = f"<span class='underlined'>{p[2]}</span>"
 
+# define unordered list with recursivity
 def p_unordered_list(p):
     """ unordered_list : UNORDERED_LIST_IDENTIFIER complex_text EOL unordered_list
     | UNORDERED_LIST_IDENTIFIER complex_text
@@ -88,6 +99,7 @@ def p_unordered_list(p):
     except:
         p[0] = f"<ul><li>{p[2]}</li></ul>" # last list element
 
+# define ordered list with recursivity
 def p_ordered_list(p):
     """ ordered_list : ORDERED_LIST_INDEX complex_text EOL ordered_list
     | ORDERED_LIST_INDEX complex_text 
@@ -97,6 +109,7 @@ def p_ordered_list(p):
     except:
         p[0] = f"<ol><li>{p[2]}</li></ol>" # last list element
 
+# define code samples and do not interpret inside code
 def p_code_sample(p):
     """ code_sample : CODE_SAMPLE 
     | CODE_SAMPLE EOL """
@@ -110,6 +123,7 @@ def p_code_sample(p):
 
     p[0] = f"<div class='code'>{code}</div>"
 
+# define loops and interpret content
 def p_loop(p):
     """ loop : LOOP EOL '{' EOL loop_content '}' 
     | LOOP EOL '{' EOL loop_content EOL '}' """
@@ -140,12 +154,14 @@ def p_loop(p):
     except:
         p[0] = f"{p[1]}<br/>{p[3]}<br/>{p[5]}<br/>{(p[6] if p[6] == '}' else p[7])}" # return raw text (loop's not interpreted)
 
+# define what can be found in a loop
 def p_loop_content(p):
     """ loop_content : title
     | simple_text
     | unordered_list """
     p[0] = p[1]
 
+# define a figure, copy the source image in the output folder
 def p_figure(p):
     """ figure : FIGURE 
     | FIGURE EOL """
@@ -170,6 +186,7 @@ def p_figure(p):
     except:
         p[0] = p[1] # return raw text (figure's not interpreted)
 
+# define special characters to be interpreted as raw text
 def p_special_character(p):
     """ special_character : BOLD_IDENTIFIER
     | BOLD_IDENTIFIER simple_text
@@ -192,16 +209,19 @@ def p_special_character(p):
     except:
         p[0] = p[1]
 
+# define end of line
 def p_simple_eol(p):
     """ simple_eol : EOL """
     p[0] = "<br/>"
 
+# handle errors
 def p_error(p):
     if p:
         print("Syntax error at '%s'" % p.value)
     else:
         print("Error at EOF")
 
+# parse the programme
 def parse(program):
     return yacc.parse(program)
 
@@ -211,7 +231,8 @@ if __name__ == "__main__":
     import sys 
     	
     prog = open(sys.argv[1]).read()
-    print(prog)
     result = yacc.parse(prog)
 
-    HTMLWriter().writeResult(sys.argv[1], "fr", result)
+    filename = ".".join(sys.argv[1].split(".")[0:-1])
+    filename = filename.split("/")[-1]
+    HTMLWriter().writeResult(filename, "fr", result)
