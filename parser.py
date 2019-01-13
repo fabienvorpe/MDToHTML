@@ -234,5 +234,5 @@ if __name__ == "__main__":
     result = yacc.parse(prog)
 
     filename = ".".join(sys.argv[1].split(".")[0:-1])
-    filename = filename.split("/")[-1]
+    filename = filename.split("\\")[-1]
     HTMLWriter().writeResult(filename, "fr", result)
